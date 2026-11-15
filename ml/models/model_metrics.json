@@ -1,0 +1,170 @@
+{
+  "dataset": {
+    "total_samples": 6000,
+    "train_samples": 4200,
+    "val_samples": 900,
+    "test_samples": 900,
+    "features": [
+      "category",
+      "complexity_score",
+      "total_milestones",
+      "remaining_milestones",
+      "progress_pct",
+      "initial_estimated_days",
+      "elapsed_days",
+      "remaining_days_to_deadline",
+      "active_projects_count",
+      "capacity_limit",
+      "workload_utilization_ratio",
+      "staff_available_pct",
+      "resource_shortage_count",
+      "max_supplier_lead_time_days",
+      "machine_overload_ratio",
+      "has_blocked_milestone",
+      "client_approval_pending",
+      "historical_delay_rate"
+    ],
+    "transformed_features": [
+      "category_Bakery & Food Businesses",
+      "category_Design Agencies",
+      "category_Printing & Custom Merchandise",
+      "category_Software Development",
+      "complexity_score",
+      "total_milestones",
+      "remaining_milestones",
+      "progress_pct",
+      "initial_estimated_days",
+      "elapsed_days",
+      "remaining_days_to_deadline",
+      "active_projects_count",
+      "capacity_limit",
+      "workload_utilization_ratio",
+      "staff_available_pct",
+      "resource_shortage_count",
+      "max_supplier_lead_time_days",
+      "machine_overload_ratio",
+      "has_blocked_milestone",
+      "client_approval_pending",
+      "historical_delay_rate"
+    ]
+  },
+  "model_a_classification": {
+    "Baseline_Dummy_Prior": {
+      "val_accuracy": 0.5722,
+      "val_precision": 0.5722,
+      "val_recall": 1.0,
+      "val_f1": 0.7279,
+      "val_roc_auc": 0.5
+    },
+    "Baseline_LogisticRegression": {
+      "val_accuracy": 0.7789,
+      "val_precision": 0.8185,
+      "val_recall": 0.7883,
+      "val_f1": 0.8032,
+      "val_roc_auc": 0.8387
+    },
+    "RandomForestClassifier": {
+      "val_accuracy": 0.8256,
+      "val_precision": 0.8761,
+      "val_recall": 0.8097,
+      "val_f1": 0.8416,
+      "val_roc_auc": 0.8791
+    },
+    "HistGradientBoostingClassifier": {
+      "val_accuracy": 0.8067,
+      "val_precision": 0.862,
+      "val_recall": 0.7883,
+      "val_f1": 0.8235,
+      "val_roc_auc": 0.8788
+    },
+    "LightGBM_Classifier": {
+      "val_accuracy": 0.8189,
+      "val_precision": 0.8877,
+      "val_recall": 0.7825,
+      "val_f1": 0.8318,
+      "val_roc_auc": 0.8861
+    },
+    "selected_best": "RandomForestClassifier",
+    "test_performance": {
+      "accuracy": 0.8533,
+      "precision": 0.8946,
+      "recall": 0.8424,
+      "f1_score": 0.8677,
+      "roc_auc": 0.907,
+      "confusion_matrix": {
+        "TN": 335,
+        "FP": 51,
+        "FN": 81,
+        "TP": 433
+      }
+    },
+    "top_features": [
+      {
+        "feature": "has_blocked_milestone",
+        "importance": 0.2981
+      },
+      {
+        "feature": "remaining_days_to_deadline",
+        "importance": 0.1008
+      },
+      {
+        "feature": "workload_utilization_ratio",
+        "importance": 0.0966
+      },
+      {
+        "feature": "category_Printing & Custom Merchandise",
+        "importance": 0.0788
+      },
+      {
+        "feature": "machine_overload_ratio",
+        "importance": 0.0564
+      },
+      {
+        "feature": "progress_pct",
+        "importance": 0.054
+      },
+      {
+        "feature": "initial_estimated_days",
+        "importance": 0.0529
+      },
+      {
+        "feature": "active_projects_count",
+        "importance": 0.0383
+      }
+    ]
+  },
+  "model_b_regression": {
+    "Baseline_Dummy_Median": {
+      "val_mae": 8.0849,
+      "val_rmse": 14.3523,
+      "val_r2": -0.0841
+    },
+    "Baseline_RidgeRegression": {
+      "val_mae": 2.847,
+      "val_rmse": 4.7736,
+      "val_r2": 0.8801
+    },
+    "RandomForestRegressor": {
+      "val_mae": 2.1741,
+      "val_rmse": 3.5081,
+      "val_r2": 0.9352
+    },
+    "HistGradientBoostingRegressor": {
+      "val_mae": 1.4112,
+      "val_rmse": 2.9628,
+      "val_r2": 0.9538
+    },
+    "LightGBM_Regressor": {
+      "val_mae": 1.4395,
+      "val_rmse": 2.9137,
+      "val_r2": 0.9553
+    },
+    "selected_best": "HistGradientBoostingRegressor",
+    "residual_std": 2.959,
+    "test_performance": {
+      "mae": 1.3197,
+      "rmse": 2.2719,
+      "r2": 0.9646
+    }
+  }
+}

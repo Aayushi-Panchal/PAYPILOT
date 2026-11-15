@@ -1,0 +1,78 @@
+{
+  "bread_basket": {
+    "name": "The Bread Basket Bakery Transaction & Production Dataset",
+    "source_url": "https://github.com/prasertcbs/basic-dataset/blob/master/BreadBasket_DMS.csv",
+    "license": "CC0: Public Domain",
+    "category": "Bakery & Food Businesses",
+    "raw_records": 21293,
+    "columns": [
+      "Date",
+      "Time",
+      "Transaction",
+      "Item"
+    ],
+    "description": "21,293 real customer transactions from The Bread Basket bakery in Edinburgh, UK, documenting bakery orders, item varieties, batch orders, and production timestamps."
+  },
+  "software_effort_benchmarks": {
+    "name": "PROMISE Software Engineering Effort & Task Duration Repository (Desharnais, COCOMO-81, Pomodoro Tasks)",
+    "source_url": "https://github.com/Derek-Jones/Software-estimation-datasets",
+    "license": "Open Academic Research / Creative Commons",
+    "category": "Software Development & Design Agencies",
+    "raw_records": 17908,
+    "breakdown": {
+      "desharnais_projects": 81,
+      "cocomo81_projects": 63,
+      "pomodoro_tasks": 17764
+    },
+    "description": "Standard software engineering empirical datasets recording project complexity, lines of code/function points, team experience, estimated effort, and actual person-hours and duration."
+  },
+  "dataco_supply_chain": {
+    "name": "DataCo Global Smart Supply Chain & Delivery Risk Dataset",
+    "source_url": "https://github.com/bengtsoderlund/late-shipment-prediction-ml / Kaggle DataCo Smart Supply Chain",
+    "license": "CC BY-NC-SA 4.0",
+    "category": "Printing & Custom Merchandise / Supply Chain",
+    "raw_records": 9999,
+    "columns": [
+      "Days for shipping (real)",
+      "Days for shipment (scheduled)",
+      "Delivery Status",
+      "Late_delivery_risk",
+      "Order City",
+      "Order Country",
+      "Order Customer Id",
+      "order date (DateOrders)",
+      "Order Id",
+      "Order Item Cardprod Id",
+      "Order Item Discount",
+      "Order Item Discount Rate",
+      "Order Item Id",
+      "Order Item Product Price",
+      "Order Item Profit Ratio"
+    ],
+    "description": "Real-world supply chain and order fulfillment dataset with scheduled delivery days, real days to fulfillment, delivery status, and ground-truth Late_delivery_risk labels."
+  },
+  "ai4i_manufacturing": {
+    "name": "UCI AI4I 2020 Predictive Maintenance & Production Dataset",
+    "source_url": "https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset (Mirror: nmrinl/dataanalytics/main/ai4i2020.csv)",
+    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+    "category": "Printing & Custom Merchandise / Equipment Intelligence",
+    "raw_records": 10000,
+    "columns": [
+      "UDI",
+      "Product ID",
+      "Type",
+      "Air temperature [K]",
+      "Process temperature [K]",
+      "Rotational speed [rpm]",
+      "Torque [Nm]",
+      "Tool wear [min]",
+      "Machine failure",
+      "TWF",
+      "HDF",
+      "PWF",
+      "OSF",
+      "RNF"
+    ],
+    "description": "10,000 real production machine runs capturing operational parameters, process temperatures, rotational tool speeds, tool wear in minutes, and failure modes."
+  }
+}

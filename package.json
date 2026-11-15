@@ -1,0 +1,25 @@
+{
+  "name": "paypilot",
+  "version": "2.0.0",
+  "description": "PayPilot — AI-Powered Adaptive Business Operating Platform with PayPal Integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node tests/phase1.test.js && node tests/phase2.test.js && node tests/phase3.test.js"
+  },
+  "keywords": [
+    "paypal",
+    "ai-agent",
+    "adaptive-workspace",
+    "small-business",
+    "freelancer"
+  ],
+  "author": "PayPilot Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

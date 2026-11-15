@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+paypilot.db
+paypilot.db-journal
+paypilot.db-wal
+.DS_Store
+coverage/

@@ -1,0 +1,2925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PayPilot — Adaptive Business Operating Platform</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --pri:#0070E0;--navy:#003087;--pp-blue:#0079C1;
+  --bg:#F7FAFD;--card:#FFFFFF;--tx:#141C2E;--bt:#0D172A;--bx:#FFFFFF;
+  --g:#F0F5FA;--mu:#5A6E8C;--bd:#E2EAF2;--sh:0 4px 20px rgba(0,48,135,.06);
+  --ok:#0E9F6E;--wa:#C27803;--er:#D14343;
+  --print-bg:#EBF4FF;--print-acc:#0070E0;--print-tx:#003087;--print-bd:#C8E1FF;
+  --bakery-bg:#FFF0F5;--bakery-acc:#D81B60;--bakery-tx:#880E4F;--bakery-bd:#FFD1E3;
+  --soft-bg:#E8F8F0;--soft-acc:#0E9F6E;--soft-tx:#065F46;--soft-bd:#BAEED5;
+  --design-bg:#F3EFFF;--design-acc:#7C3AED;--design-tx:#4C1D95;--design-bd:#DDD1FE;
+  box-sizing:border-box
+}
+:root[data-theme="dark"]{
+  --bg:#0A1326;--card:#101D36;--tx:#EAF1FB;--bt:#FFFFFF;--bx:#0A1326;
+  --g:#162544;--mu:#8EA3C7;--bd:#22365D;--sh:0 4px 24px rgba(0,0,0,.4);
+  --pri:#3892F7;--pp-blue:#38A5FF;
+  --print-bg:#12284D;--print-bd:#22447A;--bakery-bg:#3B1226;--bakery-bd:#612040;
+  --soft-bg:#0F3323;--soft-bd:#1C523B;--design-bg:#27194A;--design-bd:#432B7D;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 'Plus Jakarta Sans',Inter,system-ui,sans-serif;transition:background .2s,color .2s}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em;letter-spacing:-.02em}
+h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.03em}h2{font-size:1.6rem}h3{font-size:1.15rem}h4{font-size:1rem}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mu{color:var(--mu)}.sm{font-size:.88rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid transparent;border-radius:99px;padding:.62em 1.35em;font:700 .92rem 'Plus Jakarta Sans',sans-serif;cursor:pointer;background:var(--bt);color:var(--bx);transition:all .18s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,112,224,.2)}
+.btn.s{background:var(--card);color:var(--tx);border-color:var(--bd)}
+.btn.g{background:var(--g);color:var(--tx);border-color:transparent}
+.btn.d{color:var(--er);background:var(--card);border-color:var(--bd)}
+.btn.ok-btn{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.paypal{background:#FFC439;color:#111;border-color:#E0A820;font-weight:800}
+.btn.paypal:hover{background:#F2BA36;box-shadow:0 6px 18px rgba(255,196,57,.4)}
+.btn.portal-switch{background:linear-gradient(135deg,var(--navy),var(--pri));color:#fff;border:none;box-shadow:0 3px 12px rgba(0,48,135,.2)}
+.card{background:var(--card);border:1.5px solid var(--bd);border-radius:20px;padding:24px;box-shadow:var(--sh)}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sp{justify-content:space-between}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+header.top .wrap{display:flex;align-items:center;gap:18px;height:66px}
+.logo{font-weight:800;font-size:1.25rem;color:var(--navy);display:flex;gap:10px;align-items:center}
+[data-theme=dark] .logo{color:var(--tx)}
+.pp-svg{width:22px;height:26px;flex-shrink:0}
+nav.l{display:flex;gap:18px;margin-left:auto;align-items:center;font-weight:600}
+nav.l a:hover{color:var(--pri)}
+.tg{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;padding:.4em .75em;cursor:pointer;font:600 .82rem 'Plus Jakarta Sans'}
+.sec{padding:44px 0}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:.4em 1em;border:1.5px solid var(--bd);border-radius:99px;background:var(--card);font-weight:600;font-size:.85rem;cursor:pointer;margin:0 6px 8px 0;color:var(--tx);transition:all .15s}
+.chip.on,.chip:hover{background:var(--pri);color:#fff;border-color:var(--pri)}
+.bd{display:inline-flex;align-items:center;gap:5px;padding:.24em .8em;border-radius:99px;font-size:.78rem;font-weight:700;background:var(--g);color:var(--tx)}
+.bd.ok{background:rgba(14,159,110,.14);color:var(--ok)}
+.bd.wa{background:rgba(194,120,3,.15);color:var(--wa)}
+.bd.er{background:rgba(209,67,67,.14);color:var(--er)}
+.bd.ai{background:linear-gradient(135deg,rgba(0,112,224,.12),rgba(14,159,110,.12));color:var(--pri);border:1px solid rgba(0,112,224,.2)}
+.pg{height:8px;border-radius:99px;background:var(--bd);overflow:hidden}
+.pg b{display:block;height:100%;background:linear-gradient(90deg,var(--pri),var(--ok));transition:width .4s}
+.emp{text-align:center;padding:52px 24px;border:2px dashed var(--bd);border-radius:22px;background:var(--card)}
+.emp .ic{width:64px;height:64px;border-radius:50%;background:var(--g);display:grid;place-items:center;margin:0 auto 16px}
+label{display:block;font-weight:700;font-size:.88rem;margin-bottom:6px}
+input,select,textarea{width:100%;border:1.5px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;padding:.7em .95em;font:500 .95rem 'Plus Jakarta Sans',sans-serif;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 3px rgba(0,112,224,.12)}
+.f{margin-bottom:16px}
+.er-msg{color:var(--er);font-size:.82rem;min-height:1.1em;margin-top:4px}
+.crumb{font-size:.85rem;color:var(--mu);margin-bottom:16px}
+.crumb a:hover{color:var(--pri)}
+footer{background:var(--navy);color:#C9D7F0;padding:44px 0;margin-top:48px}
+.app{display:grid;grid-template-columns:256px 1fr;min-height:100vh}
+.side{background:var(--card);border-right:1px solid var(--bd);padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}
+.side a{display:flex;gap:11px;padding:.65em .95em;border-radius:12px;font-weight:600;color:var(--mu);margin:3px 0;align-items:center;font-size:.92rem}
+.side a:hover{background:var(--g);color:var(--pri)}
+.side a.on{background:var(--g);color:var(--pri);font-weight:700}
+.main{min-width:0}
+.bar{display:flex;align-items:center;gap:12px;padding:12px 24px;border-bottom:1px solid var(--bd);background:var(--card)}
+.cont{padding:28px;max-width:1140px}
+.mb{display:none}
+.ms{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:11px 0;border-bottom:1px solid var(--bd)}
+.ms.d .ms-title{text-decoration:line-through;color:var(--mu)}
+.modal{position:fixed;inset:0;background:rgba(8,18,36,.55);display:grid;place-items:center;z-index:30;padding:16px}
+.modal .card{max-width:620px;width:100%;max-height:90vh;overflow:auto}
+.wk{display:grid;grid-template-columns:repeat(7,minmax(100px,1fr));gap:10px;overflow-x:auto}
+.wk div{border:1px solid var(--bd);border-radius:14px;padding:12px;min-height:120px;background:var(--card);font-size:.85rem}
+.hx{text-align:center;padding:60px 20px 32px}
+.hx h1{max-width:920px;margin:0 auto 16px}
+.hx>p{max-width:640px;margin:0 auto 28px;font-size:1.15rem;color:var(--mu)}
+
+/* Pastel Hero Category Cards */
+.cat-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:36px}
+.cat-box{border-radius:24px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;min-height:380px;border:2px solid transparent;transition:all .2s;text-align:left}
+.cat-box:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.08)}
+.badge-circle{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+
+/* Product Cards */
+.prod-card{border:1.5px solid var(--bd);border-radius:20px;padding:18px;background:var(--card);cursor:pointer;transition:all .18s;display:flex;flex-direction:column}
+.prod-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,112,224,.1);border-color:var(--pri)}
+.prod-card.selected{border-color:var(--pri);background:var(--g)}
+
+/* Resource Cards */
+.res-card{border:1.5px solid var(--bd);border-radius:18px;padding:20px;background:var(--card);transition:all .18s}
+.res-card:hover{box-shadow:0 6px 20px rgba(0,112,224,.08)}
+.res-card.shortage{border-color:#E74C3C;background:rgba(231,76,60,.03)}
+
+/* Flowchart */
+.flow-step{background:var(--card);border-radius:16px;padding:12px 14px;text-align:center;flex:1;min-width:115px}
+.flow-arr{font-size:1.3rem;font-weight:800;color:var(--pri);flex-shrink:0}
+
+/* Option choice in Onboarding */
+.opt-choice{display:flex;align-items:flex-start;gap:12px;border:1.5px solid var(--bd);border-radius:14px;padding:13px 16px;margin-bottom:10px;cursor:pointer;background:var(--card);transition:all .15s}
+.opt-choice:hover,.opt-choice.selected{border-color:var(--pri);background:var(--g)}
+.opt-choice input{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0}
+
+/* Toast Notification */
+.toast{position:fixed;bottom:24px;right:24px;z-index:99;background:var(--ok);color:#fff;padding:12px 20px;border-radius:12px;font-weight:700;box-shadow:0 6px 22px rgba(0,0,0,.2);animation:slideup .3s ease}
+@keyframes slideup{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Interactive Analytics & Chart Tooltips */
+.chart-tip{position:fixed;pointer-events:none;background:#0D172A;color:#FFFFFF;padding:8px 12px;border-radius:10px;font-size:.78rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:9999;opacity:0;transition:opacity .15s ease;transform:translate(-50%, -100%);margin-top:-10px;white-space:nowrap;line-height:1.4}
+.chart-tip.show{opacity:1}
+.chart-tip b{color:#38A5FF}
+.chart-point{cursor:pointer;transition:r .2s ease, fill .2s ease}
+.chart-point:hover{r:8px}
+.donut-seg{cursor:pointer;transition:stroke-width .2s ease, opacity .2s ease}
+.donut-seg:hover{stroke-width:26;opacity:.9}
+.res-bar-track{height:9px;background:var(--g);border-radius:99px;overflow:hidden;position:relative;display:flex}
+.res-bar-fill{height:100%;border-radius:99px;transition:width .4s ease}
+
+@media(max-width:860px){.app{grid-template-columns:1fr}.side{position:fixed;left:-270px;width:256px;z-index:25;transition:left .2s}.side.o{left:0}.mb{display:inline-block}.cont{padding:16px}.bar{padding:12px 16px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="md"></div>
+<div id="toast-box"></div>
+
+<script>
+// ================================================================
+// VECTOR SVG GRAPHICS & CLIKART ICONS (ZERO EMOJIS)
+// ================================================================
+const SVG = {
+  paypal: `<svg class="pp-svg" viewBox="0 0 28 32" fill="none"><path d="M22.9 8.2c-.3 2.1-1.4 3.7-3.1 4.7-1.4.9-3.2 1.3-5.3 1.3H11l-2.4 15.2h4.5l1.6-10.1h2.2c4.4 0 7.8-1.8 8.8-6.9.5-2.4.1-4.2-1.1-5.5-.4-.4-.9-.8-1.5-1.1z" fill="#0079C1"/><path d="M19.2 2.6C18.5 1.1 16.8.3 14.3.3H6.8c-.8 0-1.5.6-1.6 1.4L1.8 23.3c-.1.7.4 1.3 1.1 1.3h5.2l1.9-12.1c.1-.8.8-1.4 1.6-1.4h3.6c3.6 0 6.4-1.5 7.2-5.7.1-.6.1-1.1 0-1.6-.3-.9-.9-1.7-1.7-2.2z" fill="#003087"/><path d="M19.9 7.6c-.3 1.9-1.2 3.3-2.7 4.2-1.3.8-2.9 1.1-4.8 1.1H9.6L8 23.4h3.9l1.4-8.8c.1-.8.8-1.4 1.6-1.4h1.9c3.9 0 6.9-1.6 7.8-6.1.4-2.1.1-3.7-.9-4.9-.5-.6-1.2-1-2.1-1.3.4.6.6 1.3.6 2.1 0 .6-.1 1.1-.3 1.6z" fill="#00457C" opacity="0.6"/></svg>`,
+  print: `<svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="10" y="8" width="28" height="12" rx="3" fill="#0070E0"/><rect x="6" y="18" width="36" height="20" rx="5" fill="#003087"/><rect x="12" y="26" width="24" height="16" rx="3" fill="#FFFFFF"/><circle cx="36" cy="23" r="2.5" fill="#00E5A3"/><rect x="16" y="30" width="16" height="2.5" rx="1.2" fill="#E2EAF2"/><rect x="16" y="35" width="10" height="2.5" rx="1.2" fill="#E2EAF2"/></svg>`,
+  bakery: `<svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="8" y="24" width="32" height="18" rx="6" fill="#D81B60"/><rect x="13" y="14" width="22" height="12" rx="4" fill="#FF80AB"/><circle cx="24" cy="10" r="4.5" fill="#C2185B"/><rect x="12" y="22" width="24" height="4" rx="2" fill="#FFFFFF"/><circle cx="16" cy="32" r="2" fill="#FFFFFF"/><circle cx="24" cy="32" r="2" fill="#FFFFFF"/><circle cx="32" cy="32" r="2" fill="#FFFFFF"/></svg>`,
+  software: `<svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="24" rx="4" fill="#065F46"/><rect x="9" y="13" width="30" height="18" rx="2" fill="#0E9F6E"/><path d="M16 18L12 22L16 26" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 18L36 22L32 26" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 17L22 27" stroke="#BAEED5" stroke-width="2.2" stroke-linecap="round"/><rect x="4" y="34" width="40" height="4" rx="2" fill="#0A3F2F"/></svg>`,
+  design: `<svg width="44" height="44" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" fill="#7C3AED"/><circle cx="16" cy="20" r="3.5" fill="#FFD166"/><circle cx="24" cy="15" r="3.5" fill="#EF476F"/><circle cx="32" cy="20" r="3.5" fill="#06D6A0"/><circle cx="20" cy="30" r="3.5" fill="#118AB2"/><circle cx="30" cy="29" r="4.5" fill="#F3EFFF"/></svg>`,
+  mug: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><rect x="6" y="10" width="18" height="20" rx="4" fill="#0070E0"/><path d="M24 14H28C29.6 14 31 15.4 31 17V21C31 22.6 29.6 24 28 24H24" stroke="#0070E0" stroke-width="3" stroke-linecap="round"/><path d="M10 6C10 6 12 7 12 8" stroke="#70B4F5" stroke-width="2" stroke-linecap="round"/><path d="M15 5C15 5 17 6 17 8" stroke="#70B4F5" stroke-width="2" stroke-linecap="round"/></svg>`,
+  shirt: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><path d="M12 6L4 12L8 18L12 15V30H24V15L28 18L32 12L24 6C22 9 14 9 12 6Z" fill="#0070E0"/></svg>`,
+  banner: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><rect x="6" y="6" width="24" height="16" rx="3" fill="#0070E0"/><path d="M6 22L18 28L30 22V6H6V22Z" fill="#003087"/><line x1="6" y1="4" x2="6" y2="32" stroke="#003087" stroke-width="3" stroke-linecap="round"/></svg>`,
+  cake: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><rect x="6" y="18" width="24" height="14" rx="4" fill="#D81B60"/><rect x="10" y="11" width="16" height="9" rx="3" fill="#FF80AB"/><circle cx="18" cy="8" r="3" fill="#C2185B"/></svg>`,
+  cookie: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="#D97706"/><circle cx="13" cy="13" r="2" fill="#78350F"/><circle cx="22" cy="14" r="2.2" fill="#78350F"/><circle cx="15" cy="22" r="2" fill="#78350F"/><circle cx="23" cy="22" r="1.8" fill="#78350F"/></svg>`,
+  website: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><rect x="4" y="6" width="28" height="24" rx="4" fill="#065F46"/><rect x="4" y="6" width="28" height="7" rx="3" fill="#0A3F2F"/><circle cx="8" cy="9.5" r="1.5" fill="#EF476F"/><circle cx="12" cy="9.5" r="1.5" fill="#FFD166"/><circle cx="16" cy="9.5" r="1.5" fill="#06D6A0"/><rect x="8" y="17" width="12" height="3" rx="1.5" fill="#BAEED5"/><rect x="8" y="22" width="20" height="3" rx="1.5" fill="#FFFFFF"/></svg>`,
+  app: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><rect x="9" y="4" width="18" height="28" rx="5" fill="#065F46"/><rect x="12" y="8" width="12" height="18" rx="2" fill="#FFFFFF"/><circle cx="18" cy="29" r="1.5" fill="#BAEED5"/></svg>`,
+  logo: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><path d="M18 4L22 14L32 18L22 22L18 32L14 22L4 18L14 14L18 4Z" fill="#7C3AED"/></svg>`,
+  brand: `<svg width="34" height="34" viewBox="0 0 36 36" fill="none"><rect x="6" y="8" width="10" height="20" rx="3" fill="#7C3AED"/><rect x="13" y="8" width="10" height="20" rx="3" fill="#FF80AB"/><rect x="20" y="8" width="10" height="20" rx="3" fill="#FFD166"/></svg>`,
+  box: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+  gear: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  user: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  cloud: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
+  check: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E9F6E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  warn: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D14343" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  clock: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  dashboard: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></svg>`,
+  requests: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+  projects: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg>`,
+  workload: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  resources: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+  recovery: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`,
+  finance: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>`,
+  settings: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
+};
+
+const CATS = ['Printing', 'Bakery', 'Software Development', 'Design Agency'];
+
+const PRODUCT_CATALOG = {
+  'Printing': [
+    { id:'mug', svg:SVG.mug, name:'Custom Sublimation Mugs (10-Pack)', desc:'11oz coated ceramic mugs with high-definition vibrant print and packaging', priceFrom:90.0, pricePer:'pack', normalDays:4, urgentDays:2, unit:'packs' },
+    { id:'tshirt', svg:SVG.shirt, name:'Screen-Printed Apparel Pack (5 pcs)', desc:'100% ring-spun cotton with durable DTF full-color transfer', priceFrom:95.0, pricePer:'pack', normalDays:4, urgentDays:2, unit:'packs' },
+    { id:'banner', svg:SVG.banner, name:'Heavyweight Vinyl Display Banner', desc:'510gsm weatherproof outdoor vinyl with nickel-plated eyelets', priceFrom:92.0, pricePer:'banner', normalDays:3, urgentDays:1, unit:'banners' },
+    { id:'bizcard', svg:SVG.brand, name:'Deluxe Velvet Business Cards (500 pcs)', desc:'350gsm silk matte cardstock with soft-touch velvet lamination', priceFrom:90.0, pricePer:'box', normalDays:3, urgentDays:1, unit:'boxes' },
+    { id:'brochure', svg:SVG.print, name:'Full-Color Marketing Brochure Bundle', desc:'A4 tri-fold premium brochures on 150gsm gloss stock (200 pcs)', priceFrom:90.0, pricePer:'bundle', normalDays:3, urgentDays:1, unit:'bundles' },
+    { id:'custom', svg:SVG.box, name:'Branded Merchandise Starter Kit', desc:'Custom promotional pack with branded mugs, stickers and tote bag', priceFrom:95.0, pricePer:'kit', normalDays:5, urgentDays:2, unit:'kits' }
+  ],
+  'Bakery': [
+    { id:'cake', svg:SVG.cake, name:'Custom Tiered Celebration Cake', desc:'Fondant sculpted birthday or event centerpiece cake made to order', priceFrom:95.0, pricePer:'cake', normalDays:4, urgentDays:2, unit:'cakes' },
+    { id:'cupcakes', svg:SVG.cake, name:'Gourmet Cupcake Selection (36 pcs)', desc:'3 dozen cupcakes with custom frosting swirls, sprinkles and flavors', priceFrom:92.0, pricePer:'box', normalDays:2, urgentDays:1, unit:'boxes' },
+    { id:'cookies', svg:SVG.cookie, name:'Artisanal Royal Iced Cookie Platter', desc:'Custom decorated shortbread cookies with royal icing artwork (30 pcs)', priceFrom:90.0, pricePer:'platter', normalDays:3, urgentDays:1, unit:'platters' },
+    { id:'bread', svg:SVG.cookie, name:'Organic Sourdough & Loaf Hamper', desc:'Naturally fermented stone-baked sourdough loaves and specialty pastries', priceFrom:90.0, pricePer:'hamper', normalDays:1, urgentDays:1, unit:'hampers' },
+    { id:'pastries', svg:SVG.cookie, name:'French Butter Croissant & Pastry Box', desc:'Artisanal morning croissants, pain au chocolat & danish box (24 pcs)', priceFrom:90.0, pricePer:'box', normalDays:1, urgentDays:1, unit:'boxes' },
+    { id:'dessert', svg:SVG.cake, name:'Luxury Event Dessert Selection', desc:'Assorted handcrafted mini tarts, eclairs and French macarons package', priceFrom:95.0, pricePer:'package', normalDays:3, urgentDays:1, unit:'packages' }
+  ],
+  'Software Development': [
+    { id:'website', svg:SVG.website, name:'Custom Landing Page & Form Setup', desc:'High-converting responsive landing page with contact form and analytics', priceFrom:95.0, pricePer:'module', normalDays:5, urgentDays:2, unit:'modules' },
+    { id:'api', svg:SVG.website, name:'API Integration & Cloud Webhook Sprint', desc:'REST API endpoint integration, webhook handling and secure data sync', priceFrom:92.0, pricePer:'task', normalDays:4, urgentDays:2, unit:'tasks' },
+    { id:'app', svg:SVG.app, name:'Database Schema & Admin View Module', desc:'CRUD interface, SQL schema setup and authenticated admin table view', priceFrom:95.0, pricePer:'sprint', normalDays:6, urgentDays:3, unit:'sprints' },
+    { id:'maint', svg:SVG.software, name:'Monthly Code QA & Security Audit', desc:'Dependency vulnerability scan, performance profiling and test fixes', priceFrom:90.0, pricePer:'audit', normalDays:3, urgentDays:1, unit:'audits' },
+    { id:'custom_dev', svg:SVG.software, name:'Business Automation Script Setup', desc:'Automated data processing, recurring cron jobs or notification bot', priceFrom:92.0, pricePer:'script', normalDays:5, urgentDays:2, unit:'scripts' },
+    { id:'mobile', svg:SVG.app, name:'Mobile App Bug Fix & Optimization', desc:'Cross-platform UI bug fix, responsive layout adjustment and store readiness', priceFrom:95.0, pricePer:'task', normalDays:4, urgentDays:2, unit:'tasks' }
+  ],
+  'Design Agency': [
+    { id:'logo', svg:SVG.logo, name:'Brand Logo & Vector Identity Suite', desc:'Primary logo, alternate marks, vector exports (SVG/EPS) and color palette', priceFrom:95.0, pricePer:'suite', normalDays:5, urgentDays:2, unit:'suites' },
+    { id:'brand_kit', svg:SVG.brand, name:'Complete Brand Style Guide & Assets', desc:'Typography system, digital asset guidelines, brand colors and iconography', priceFrom:95.0, pricePer:'kit', normalDays:5, urgentDays:2, unit:'kits' },
+    { id:'social', svg:SVG.brand, name:'Social Media Content Pack (8 assets)', desc:'Bespoke Instagram, LinkedIn and Twitter promotional banner templates', priceFrom:90.0, pricePer:'pack', normalDays:3, urgentDays:1, unit:'packs' },
+    { id:'poster', svg:SVG.logo, name:'Marketing Poster & Print Collateral', desc:'Print-ready high-resolution promotional marketing posters and flyers', priceFrom:92.0, pricePer:'set', normalDays:3, urgentDays:1, unit:'sets' },
+    { id:'ui', svg:SVG.website, name:'UI/UX Mobile Flow Prototype (Figma)', desc:'3-to-5 screen clickable Figma prototype flow with component library', priceFrom:95.0, pricePer:'flow', normalDays:5, urgentDays:2, unit:'flows' },
+    { id:'custom_des', svg:SVG.design, name:'Digital Illustration & Graphic Asset', desc:'Custom vector artwork, blog cover illustrations or website hero graphic', priceFrom:90.0, pricePer:'design', normalDays:4, urgentDays:2, unit:'designs' }
+  ]
+};
+
+const API_BASE = (typeof window !== 'undefined' && window.location.protocol === 'file:') ? 'http://localhost:3000' : '';
+
+async function apiFetch(url, options = {}) {
+  const target = (url.startsWith('http') ? url : (API_BASE + url));
+  try {
+    return await fetch(target, options);
+  } catch (err) {
+    if (err.message && (err.message.toLowerCase().includes('fetch') || err.message.includes('NetworkError'))) {
+      throw new Error(`Cannot connect to PayPilot backend at ${API_BASE || window.location.origin}. Please run: npm start`);
+    }
+    throw err;
+  }
+}
+
+function showToast(msg, isErr = false) {
+  const el = document.getElementById('toast-box');
+  if (!el) return;
+  el.innerHTML = `<div class="toast" style="${isErr ? 'background:#D14343' : ''}">${esc(msg)}</div>`;
+  setTimeout(() => { if (el) el.innerHTML = ''; }, 3500);
+}
+
+const S = {
+  portal: localStorage.getItem('pp-portal') || 'customer',
+  marketList: [], allBizList: [], bizList: [], biz: null,
+  workspaceConfig: null, reqs: [], recoveryAnalysis: null, resourcesData: null, health: null,
+  q: '', cat: 'All', sidebar: false, marketLoading: false,
+  selectedRiskId: null,
+  orderForm: { selectedProduct: null, qty: 1, deadline: '', notes: '' },
+  reorderModal: null,
+  onbState: {
+    step: 'profile', name: '', category: 'Printing', desc: '',
+    currentIndex: 0, currentQuestion: null, history: [],
+    currentSelection: null, customText: '', loading: false, error: '', workspaceConfig: null
+  }
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ST = { New: '', Accepted: 'ok', 'Clarification needed': 'wa', Rejected: 'er' };
+const bdg = (s, c) => `<span class="bd ${c ?? ST[s] ?? ''}">${esc(s)}</span>`;
+const crumb = a => `<div class="crumb">${a.map(([l, h]) => h ? `<a href="${h}">${l}</a>` : l).join(' / ')}</div>`;
+
+function getCatClass(cat) {
+  const c = (cat || '').toLowerCase();
+  if (c.includes('print') || c.includes('merch')) return 'print';
+  if (c.includes('bake') || c.includes('food')) return 'bakery';
+  if (c.includes('dev') || c.includes('software')) return 'soft';
+  if (c.includes('design') || c.includes('creative')) return 'design';
+  return 'print';
+}
+function getCatAccent(cat) {
+  const c = getCatClass(cat);
+  return { print: '#0070E0', bakery: '#D81B60', soft: '#0E9F6E', design: '#7C3AED' }[c] || '#0070E0';
+}
+function getCatBg(cat) {
+  const c = getCatClass(cat);
+  return { print: 'var(--print-bg)', bakery: 'var(--bakery-bg)', soft: 'var(--soft-bg)', design: 'var(--design-bg)' }[c] || 'var(--g)';
+}
+function getCatBorder(cat) {
+  const c = getCatClass(cat);
+  return { print: 'var(--print-bd)', bakery: 'var(--bakery-bd)', soft: 'var(--soft-bd)', design: 'var(--design-bd)' }[c] || 'var(--bd)';
+}
+function getCatSvg(cat) {
+  const c = getCatClass(cat);
+  return { print: SVG.print, bakery: SVG.bakery, soft: SVG.software, design: SVG.design }[c] || SVG.print;
+}
+
+function riskClass(level) {
+  if (!level) return 'ok';
+  const l = level.toLowerCase();
+  if (l === 'critical' || l === 'high') return 'er';
+  if (l === 'medium') return 'wa';
+  return 'ok';
+}
+function riskLabel(prob) {
+  if (prob >= 70) return 'High Risk';
+  if (prob >= 35) return 'Medium Risk';
+  return 'Low Risk';
+}
+
+/* Interactive Chart Tooltip Handlers */
+function showChartTip(e, html) {
+  let tip = document.getElementById('chart-tip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'chart-tip';
+    tip.className = 'chart-tip';
+    document.body.appendChild(tip);
+  }
+  tip.innerHTML = html;
+  tip.classList.add('show');
+  const rect = e.currentTarget.getBoundingClientRect();
+  tip.style.left = Math.round(rect.left + rect.width / 2) + 'px';
+  tip.style.top = Math.round(rect.top - 6) + 'px';
+}
+function hideChartTip() {
+  const tip = document.getElementById('chart-tip');
+  if (tip) tip.classList.remove('show');
+}
+
+/* 1. Project Risk Trend — Interactive Line Chart */
+function renderRiskTrendChart(projects, allCompleted) {
+  if (allCompleted || !projects || projects.length === 0) {
+    return `<div style="text-align:center;padding:32px 14px;margin:auto">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(14,159,110,.12);color:var(--ok);margin-bottom:10px">
+        ${SVG.check}
+      </div>
+      <div style="font-weight:700;color:var(--ok);font-size:1.02rem">Zero Delay Risks Detected</div>
+      <p class="sm mu" style="margin:4px auto 0;max-width:300px">
+        ${allCompleted ? 'All workspace projects have been completed successfully.' : 'No active projects currently in progress.'}
+      </p>
+    </div>`;
+  }
+
+  const N = projects.length;
+  const W = 460;
+  const H = 150;
+  const padL = 42;
+  const padR = 20;
+  const padT = 18;
+  const padB = 32;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  const points = projects.map((p, i) => {
+    const x = N === 1 ? padL + plotW / 2 : padL + (i / (N - 1)) * plotW;
+    const clampedRisk = Math.min(100, Math.max(0, p.riskPct || 0));
+    const y = (padT + plotH) - (clampedRisk / 100) * plotH;
+    return { x: Math.round(x), y: Math.round(y), p };
+  });
+
+  let lineD = '';
+  let areaD = '';
+  if (N === 1) {
+    lineD = `M ${padL} ${points[0].y} L ${W - padR} ${points[0].y}`;
+    areaD = `M ${padL} ${points[0].y} L ${W - padR} ${points[0].y} L ${W - padR} ${padT + plotH} L ${padL} ${padT + plotH} Z`;
+  } else {
+    lineD = `M ${points[0].x} ${points[0].y}` + points.slice(1).map(pt => ` L ${pt.x} ${pt.y}`).join('');
+    areaD = `M ${points[0].x} ${points[0].y}` + points.slice(1).map(pt => ` L ${pt.x} ${pt.y}`).join('') + ` L ${points[N - 1].x} ${padT + plotH} L ${points[0].x} ${padT + plotH} Z`;
+  }
+
+  const gridY = [0, 25, 50, 75, 100].map(val => ({
+    val,
+    y: Math.round((padT + plotH) - (val / 100) * plotH)
+  }));
+
+  const maxRisk = Math.max(...projects.map(p => p.riskPct || 0));
+  const strokeColor = maxRisk >= 60 ? '#D14343' : maxRisk >= 35 ? '#C27803' : 'var(--ok)';
+
+  return `<div style="position:relative;width:100%">
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;overflow:visible">
+      <defs>
+        <linearGradient id="trendAreaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${strokeColor}" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="${strokeColor}" stop-opacity="0.0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Reference Grid -->
+      ${gridY.map(g => `
+        <line x1="${padL}" y1="${g.y}" x2="${W - padR}" y2="${g.y}" stroke="var(--bd)" stroke-dasharray="3,3" stroke-width="1"/>
+        <text x="${padL - 8}" y="${g.y + 3}" text-anchor="end" font-size="9" font-weight="600" fill="var(--mu)">${g.val}%</text>
+      `).join('')}
+
+      <!-- Area fill -->
+      <path d="${areaD}" fill="url(#trendAreaGrad)"/>
+
+      <!-- Trend Line -->
+      <path d="${lineD}" fill="none" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Data Points -->
+      ${points.map((pt, idx) => {
+        const p = pt.p;
+        const ptColor = p.riskPct >= 60 ? '#D14343' : p.riskPct >= 35 ? '#C27803' : 'var(--ok)';
+        const tipText = `<b>${esc(p.title)}</b><br><span style="color:#8EA3C7">Deadline:</span> <b>${esc(p.deadline)}</b><br><span style="color:#8EA3C7">ML Delay Risk:</span> <b style="color:${ptColor}">${p.riskPct}% (${esc(p.riskLevel)})</b><br><span style="color:#8EA3C7">Remaining Days:</span> <b>${p.remDays}d</b>`;
+        return `
+          <g>
+            <circle cx="${pt.x}" cy="${pt.y}" r="5.5" fill="${ptColor}" stroke="var(--card)" stroke-width="2" class="chart-point"
+              onmouseenter="showChartTip(event, '${tipText.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()"/>
+            <text x="${pt.x}" y="${padT + plotH + 16}" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--mu)">P${idx + 1}</text>
+          </g>
+        `;
+      }).join('')}
+    </svg>
+  </div>`;
+}
+
+/* 2. Risk Distribution — Interactive Doughnut Chart */
+function renderRiskDonutChart(projects, allCompleted) {
+  const H = projects.filter(p => p.riskPct >= 60 || p.riskLevel === 'Critical' || p.riskLevel === 'High').length;
+  const M = projects.filter(p => (p.riskPct >= 35 && p.riskPct < 60) || p.riskLevel === 'Medium').length;
+  const L = projects.filter(p => p.riskPct < 35 && p.riskLevel !== 'High' && p.riskLevel !== 'Critical' && p.riskLevel !== 'Medium').length;
+  const Total = projects.length;
+
+  const C = 377; // 2 * PI * 60
+
+  if (allCompleted || Total === 0) {
+    return `<div style="display:flex;flex-direction:column;align-items:center;padding:12px 0">
+      <div style="position:relative;width:150px;height:150px;margin-bottom:12px">
+        <svg viewBox="0 0 160 160" style="width:100%;height:100%;display:block">
+          <circle cx="80" cy="80" r="54" fill="none" stroke="var(--ok)" stroke-width="18" stroke-dasharray="339.3" stroke-dashoffset="0"/>
+          <text x="80" y="78" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ok)">✓</text>
+          <text x="80" y="96" text-anchor="middle" font-size="10" font-weight="700" fill="var(--mu)">All Clear</text>
+        </svg>
+      </div>
+      <div style="width:100%;max-width:240px">
+        <div class="row sp" style="font-size:.82rem;padding:3px 0"><span class="row" style="gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#D14343"></span>High Risk</span><b>0</b></div>
+        <div class="row sp" style="font-size:.82rem;padding:3px 0"><span class="row" style="gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#C27803"></span>Medium Risk</span><b>0</b></div>
+        <div class="row sp" style="font-size:.82rem;padding:3px 0"><span class="row" style="gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--ok)"></span>Low / On Track</span><b>0</b></div>
+      </div>
+    </div>`;
+  }
+
+  const lenH = Math.round((H / Total) * C * 10) / 10;
+  const lenM = Math.round((M / Total) * C * 10) / 10;
+  const lenL = Math.round((L / Total) * C * 10) / 10;
+
+  const tipH = `<b>High / Critical Risk</b><br>${H} active project${H > 1 ? 's' : ''} (${Math.round((H / Total) * 100)}%)<br><span style="color:#D14343">Requires recovery intervention</span>`;
+  const tipM = `<b>Medium Risk</b><br>${M} active project${M > 1 ? 's' : ''} (${Math.round((M / Total) * 100)}%)<br><span style="color:#C27803">Buffer monitored closely</span>`;
+  const tipL = `<b>Low / On Track</b><br>${L} active project${L > 1 ? 's' : ''} (${Math.round((L / Total) * 100)}%)<br><span style="color:var(--ok)">Operating on schedule</span>`;
+
+  return `<div style="display:flex;flex-direction:column;align-items:center;padding:6px 0">
+    <div style="position:relative;width:150px;height:150px;margin-bottom:12px">
+      <svg viewBox="0 0 160 160" style="width:100%;height:100%;display:block">
+        <circle cx="80" cy="80" r="54" fill="none" stroke="var(--g)" stroke-width="18"/>
+        ${lenH > 0 ? `
+          <circle cx="80" cy="80" r="54" fill="none" stroke="#D14343" stroke-width="18"
+            stroke-dasharray="${lenH} ${C - lenH}" stroke-dashoffset="0"
+            transform="rotate(-90 80 80)" class="donut-seg"
+            onmouseenter="showChartTip(event, '${tipH.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()"/>
+        ` : ''}
+        ${lenM > 0 ? `
+          <circle cx="80" cy="80" r="54" fill="none" stroke="#C27803" stroke-width="18"
+            stroke-dasharray="${lenM} ${C - lenM}" stroke-dashoffset="-${lenH}"
+            transform="rotate(-90 80 80)" class="donut-seg"
+            onmouseenter="showChartTip(event, '${tipM.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()"/>
+        ` : ''}
+        ${lenL > 0 ? `
+          <circle cx="80" cy="80" r="54" fill="none" stroke="var(--ok)" stroke-width="18"
+            stroke-dasharray="${lenL} ${C - lenL}" stroke-dashoffset="-${lenH + lenM}"
+            transform="rotate(-90 80 80)" class="donut-seg"
+            onmouseenter="showChartTip(event, '${tipL.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()"/>
+        ` : ''}
+        <text x="80" y="78" text-anchor="middle" font-size="28" font-weight="800" fill="var(--tx)">${Total}</text>
+        <text x="80" y="94" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--mu)">Active</text>
+      </svg>
+    </div>
+
+    <div style="width:100%;max-width:240px">
+      <div class="row sp" style="font-size:.82rem;padding:3px 0;cursor:pointer"
+        onmouseenter="showChartTip(event, '${tipH.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()">
+        <span class="row" style="gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#D14343"></span><b>High Risk</b></span>
+        <span><b>${H}</b> <span class="mu">(${Total ? Math.round(H/Total*100) : 0}%)</span></span>
+      </div>
+      <div class="row sp" style="font-size:.82rem;padding:3px 0;cursor:pointer"
+        onmouseenter="showChartTip(event, '${tipM.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()">
+        <span class="row" style="gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#C27803"></span><b>Medium Risk</b></span>
+        <span><b>${M}</b> <span class="mu">(${Total ? Math.round(M/Total*100) : 0}%)</span></span>
+      </div>
+      <div class="row sp" style="font-size:.82rem;padding:3px 0;cursor:pointer"
+        onmouseenter="showChartTip(event, '${tipL.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()">
+        <span class="row" style="gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--ok)"></span><b>Low / On Track</b></span>
+        <span><b>${L}</b> <span class="mu">(${Total ? Math.round(L/Total*100) : 0}%)</span></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* 3. Resource Utilization — Interactive Bar Chart (Adapted to Business Category) */
+function renderResourceBarChart(resourcesData, category) {
+  const normCat = (category || 'Printing').toLowerCase();
+
+  const defaults = {
+    printing: [
+      { name: 'Ceramic Sublimation Mugs', type: 'material', available: 110, required: 40, unit: 'units', leadTime: 3 },
+      { name: 'Apparel Blanks (Cotton T-Shirts)', type: 'material', available: 85, required: 30, unit: 'shirts', leadTime: 2 },
+      { name: 'Ultra-HD Sublimation Ink Set', type: 'material', available: 14, required: 6, unit: 'cartridges', leadTime: 2 },
+      { name: 'Heavyweight Outdoor Vinyl Roll', type: 'material', available: 28, required: 12, unit: 'rolls', leadTime: 3 },
+      { name: 'Heat Press Equipment Stations', type: 'equipment', available: 4, required: 3, unit: 'machines', leadTime: 1 }
+    ],
+    bakery: [
+      { name: 'Organic Pastry & Bread Flour', type: 'material', available: 140, required: 55, unit: 'kg', leadTime: 2 },
+      { name: 'Grass-Fed European Butter', type: 'material', available: 50, required: 22, unit: 'kg', leadTime: 1 },
+      { name: 'Belgian Couverture Chocolate', type: 'material', available: 35, required: 18, unit: 'kg', leadTime: 3 },
+      { name: 'Royal Icing & Sugar Blends', type: 'material', available: 25, required: 10, unit: 'kg', leadTime: 2 },
+      { name: 'Commercial Convection Ovens', type: 'equipment', available: 3, required: 2, unit: 'ovens', leadTime: 1 }
+    ],
+    soft: [
+      { name: 'Senior Full-Stack Dev Hours', type: 'staff', available: 160, required: 110, unit: 'hours', leadTime: 1 },
+      { name: 'Cloud CI/CD Build Quota', type: 'infrastructure', available: 500, required: 320, unit: 'mins', leadTime: 1 },
+      { name: 'QA & Security Audit Allocation', type: 'staff', available: 80, required: 45, unit: 'hours', leadTime: 2 },
+      { name: 'Dedicated Staging Environments', type: 'infrastructure', available: 5, required: 3, unit: 'instances', leadTime: 1 },
+      { name: 'PostgreSQL Database Capacity', type: 'storage', available: 250, required: 130, unit: 'GB', leadTime: 1 }
+    ],
+    design: [
+      { name: 'Creative Art Director Hours', type: 'staff', available: 120, required: 75, unit: 'hours', leadTime: 1 },
+      { name: 'Figma Enterprise Workspace Seats', type: 'software', available: 8, required: 6, unit: 'seats', leadTime: 1 },
+      { name: 'High-Res Vector Asset Licenses', type: 'assets', available: 100, required: 40, unit: 'licenses', leadTime: 1 },
+      { name: '3D GPU Cloud Render Hours', type: 'infrastructure', available: 80, required: 30, unit: 'hours', leadTime: 2 },
+      { name: 'Client Presentation Review Slots', type: 'staff', available: 20, required: 12, unit: 'sessions', leadTime: 1 }
+    ]
+  };
+
+  const catKey = normCat.includes('print') ? 'printing' : (normCat.includes('bake') || normCat.includes('food')) ? 'bakery' : (normCat.includes('dev') || normCat.includes('software')) ? 'soft' : 'design';
+
+  let list = [];
+  if (resourcesData && Array.isArray(resourcesData.resources) && resourcesData.resources.length > 0) {
+    list = resourcesData.resources.slice(0, 5).map(r => ({
+      name: r.name,
+      type: r.type || 'material',
+      available: Number(r.available_quantity) || 0,
+      required: Number(r.required_quantity) || 0,
+      unit: r.unit || 'units',
+      leadTime: Number(r.supplier_lead_time_days) || 3
+    }));
+  } else {
+    list = defaults[catKey] || defaults.printing;
+  }
+
+  return `<div style="display:flex;flex-direction:column;gap:12px">
+    ${list.map(r => {
+      const isShort = r.available < r.required;
+      const deficit = isShort ? (r.required - r.available) : 0;
+      const buffer = isShort ? 0 : (r.available - r.required);
+      const maxVal = Math.max(r.available, r.required, 1);
+      const reqPct = Math.min(100, Math.round((r.required / maxVal) * 100));
+      const barColor = isShort ? '#D14343' : 'var(--pri)';
+      const tipText = `<b>${esc(r.name)}</b><br><span style="color:#8EA3C7">Available:</span> <b>${r.available} ${esc(r.unit)}</b><br><span style="color:#8EA3C7">Committed:</span> <b>${r.required} ${esc(r.unit)}</b><br><span style="color:${isShort ? '#D14343' : 'var(--ok)'}">${isShort ? `Deficit: -${deficit} ${esc(r.unit)} (Lead Time: ${r.leadTime}d)` : `Safe Buffer: +${buffer} ${esc(r.unit)}`}</span>`;
+
+      return `
+        <div class="res-bar-row" style="cursor:pointer" onmouseenter="showChartTip(event, '${tipText.replace(/'/g, "\\'")}')" onmouseleave="hideChartTip()">
+          <div class="row sp" style="margin-bottom:6px">
+            <div class="row" style="gap:8px">
+              <b style="font-size:.9rem">${esc(r.name)}</b>
+              <span class="bd" style="font-size:.7rem;background:var(--g);text-transform:capitalize">${esc(r.type)}</span>
+            </div>
+            ${isShort
+              ? `<span class="bd er" style="font-size:.74rem">Shortage: -${deficit} ${esc(r.unit)}</span>`
+              : `<span class="bd ok" style="font-size:.74rem">Safe Buffer: +${buffer} ${esc(r.unit)}</span>`
+            }
+          </div>
+          <div style="background:var(--card);border:1px solid var(--bd);border-radius:99px;height:12px;overflow:hidden;position:relative;display:flex">
+            <div style="width:${reqPct}%;height:100%;background:${barColor};transition:width .4s ease"></div>
+          </div>
+          <div class="row sp sm mu" style="margin-top:4px;font-size:.78rem">
+            <span>Committed: <b>${r.required} ${esc(r.unit)}</b></span>
+            <span>In Stock: <b>${r.available} ${esc(r.unit)}</b></span>
+          </div>
+        </div>
+      `;
+    }).join('')}
+  </div>`;
+}
+
+function shell(body) {
+  return `<header class="top">
+    <div class="wrap">
+      <a class="logo" href="#/">${SVG.paypal}PayPilot</a>
+      <nav class="l">
+        <a href="#/marketplace">Marketplace</a>
+        <a href="#/my-orders">My Orders</a>
+        <a class="btn portal-switch" href="#/owner/dashboard" onclick="A.switchPortal('owner')">Business Portal ⇄</a>
+        <button class="tg" onclick="A.theme()" aria-label="Toggle theme">Theme</button>
+      </nav>
+    </div>
+  </header>
+  ${body}
+  <footer>
+    <div class="wrap">
+      <div class="row sp">
+        <div class="logo" style="color:#fff">${SVG.paypal}PayPilot</div>
+        <a class="btn portal-switch" style="font-size:.85rem" href="#/owner/dashboard" onclick="A.switchPortal('owner')">Business Portal ⇄</a>
+      </div>
+      <p class="sm" style="margin:14px 0 0;opacity:.85">PayPilot — AI-Powered Business Platform with Real-World ML Delay Prediction & Adaptive Recovery.</p>
+    </div>
+  </footer>`;
+}
+
+const NAV = [
+  ['dashboard','Dashboard',SVG.dashboard],
+  ['requests','Requests',SVG.requests],
+  ['projects','Projects',SVG.projects],
+  ['workload','Workload',SVG.workload],
+  ['resources','Resources',SVG.resources],
+  ['recovery','Recovery Centre',SVG.recovery],
+  ['finance','Finance & PayPal',SVG.finance],
+  ['settings','Settings',SVG.settings]
+];
+
+function owner(p, body) {
+  const nw = S.reqs.filter(r => (S.biz ? r.businessId === S.biz.id : true) && r.status === 'New').length;
+  const isHealthy = S.health?.status === 'healthy';
+  const mlReady = Boolean(S.health?.ml?.ready);
+  const aiReady = Boolean(S.health?.ai?.fallbackReady || S.health?.ai?.configured);
+  const catBg = getCatBg(S.biz?.category);
+  const catAcc = getCatAccent(S.biz?.category);
+
+  return `<div class="app">
+    <aside class="side ${S.sidebar ? 'o' : ''}">
+      <a class="logo" href="#/" style="margin:4px 8px 16px">${SVG.paypal}PayPilot</a>
+      
+      <div style="background:${catBg};border:1.5px solid ${getCatBorder(S.biz?.category)};border-radius:16px;padding:14px;margin-bottom:16px">
+        <div style="font-size:.7rem;color:var(--mu);font-weight:800;text-transform:uppercase;letter-spacing:.05em">Active Workspace</div>
+        <b style="display:block;font-size:.95rem;margin:2px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(S.biz?.name || 'No Workspace')}</b>
+        <span class="bd" style="background:#fff;color:${catAcc};font-size:.72rem">${esc(S.biz?.category || 'General')}</span>
+        ${S.allBizList.length > 1 ? `
+          <select onchange="A.switchBusiness(this.value)" style="margin-top:10px;padding:5px 8px;font-size:.8rem;border-radius:8px">
+            ${S.allBizList.map(b => `<option value="${b.id}" ${S.biz?.id === b.id ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}
+          </select>
+        ` : ''}
+      </div>
+
+      <div style="margin-bottom:14px">
+        <a class="btn portal-switch" style="width:100%;font-size:.82rem;padding:.5em .8em" href="#/marketplace" onclick="A.switchPortal('customer')">← Customer Portal</a>
+      </div>
+      ${NAV.map(([k, l, icon]) => `<a href="#/owner/${k}" class="${p === k ? 'on' : ''}" onclick="S.sidebar=0"><span>${icon}</span>${l}${k === 'requests' && nw ? ` <span class="bd ok" style="margin-left:auto">${nw}</span>` : ''}</a>`).join('')}
+      <a href="#/owner/onboarding" style="color:var(--pri);font-weight:700;margin-top:10px"><span>+</span>Register New Business</a>
+    </aside>
+
+    <div class="main">
+      <div class="bar">
+        <button class="tg mb" onclick="S.sidebar=!S.sidebar;R()">Menu</button>
+        <div class="row" style="gap:10px">
+          <b>${esc(S.biz?.name || 'Workspace')}</b>
+          <span class="bd ok" style="font-size:.75rem">${esc(S.biz?.category || '')}</span>
+          ${S.biz?.published ? '<span class="bd ok" style="font-size:.72rem">Listed</span>' : '<span class="bd" style="font-size:.72rem">Draft</span>'}
+        </div>
+        <div class="row" style="margin-left:auto;gap:10px">
+          <span class="bd ${isHealthy ? 'ok' : 'er'}" style="font-size:.75rem">● Backend: ${isHealthy ? 'Online' : 'Offline'}</span>
+          <span class="bd ${aiReady ? 'ok' : 'wa'}" style="font-size:.75rem">● AI Engine</span>
+          <span class="bd ${mlReady ? 'ok' : 'wa'}" style="font-size:.75rem">● ML Models</span>
+          <a class="btn portal-switch" href="#/marketplace" onclick="A.switchPortal('customer')" style="font-size:.8rem;padding:.38em .9em">Customer Portal ⇄</a>
+          <button class="tg" onclick="A.theme()">Theme</button>
+        </div>
+      </div>
+      <div class="cont">${body}</div>
+    </div>
+  </div>`;
+}
+
+function bizCard(b) {
+  const catBg = getCatBg(b.category);
+  const catAcc = getCatAccent(b.category);
+  const catBorder = getCatBorder(b.category);
+  const svg = getCatSvg(b.category);
+
+  return `<a class="card" href="#/business/${b.id}" style="display:flex;flex-direction:column;border-color:${catBorder}">
+    <div style="background:${catBg};border-radius:16px;padding:24px 16px;margin:-24px -24px 16px;text-align:center">
+      <div class="badge-circle" style="background:#fff;margin:0 auto 10px">${svg}</div>
+      <span class="bd" style="background:#fff;color:${catAcc};font-size:.75rem">${esc(b.category)}</span>
+    </div>
+    <h3 style="margin:0 0 4px">${esc(b.name)}</h3>
+    <p class="mu sm" style="margin:0 0 14px;flex:1">${esc(b.description || 'Verified small business workspace')}</p>
+    <div style="margin-bottom:14px">${(b.services || []).slice(0,3).map(s => `<span class="bd" style="font-size:.72rem;margin:0 4px 4px 0">${esc(s)}</span>`).join('')}</div>
+    <div class="row sp" style="border-top:1px solid var(--bd);padding-top:12px">
+      <span class="sm mu">Verified Portfolio</span>
+      <span class="btn s" style="padding:.3em .9em;font-size:.82rem">View & Order →</span>
+    </div>
+  </a>`;
+}
+
+const A = {
+  theme() {
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('pp-theme', r.dataset.theme); } catch(e) {}
+  },
+  switchPortal(target) {
+    S.portal = target;
+    try { localStorage.setItem('pp-portal', target); } catch(e) {}
+    location.hash = target === 'owner' ? '#/owner/dashboard' : '#/marketplace';
+  },
+  cat(c) { S.cat = c; R(); },
+  modal(h) {
+    $('#md').innerHTML = h ? `<div class="modal" onclick="if(event.target===this)A.modal()"><div class="card">${h}</div></div>` : '';
+  },
+  switchBusiness(bizId) {
+    const found = S.allBizList.find(b => b.id === bizId);
+    if (found) {
+      S.biz = found;
+      try { localStorage.setItem('pp-current-biz-id', bizId); } catch(_) {}
+      A.loadRequests().then(() => R());
+    }
+  },
+  async deleteBusiness(bizId) {
+    const b = S.allBizList.find(x => x.id === bizId);
+    const name = b ? b.name : 'this business';
+    if (!confirm(`Delete "${name}"?\n\nThis removes this business, its orders, projects and resources. Other businesses are unaffected.`)) return;
+    try {
+      const res = await apiFetch(`/api/businesses/${bizId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed to delete');
+      showToast(`"${name}" deleted.`);
+      S.biz = null;
+      localStorage.removeItem('pp-current-biz-id');
+      await A.loadBusinesses();
+      await A.loadRequests();
+      location.hash = '#/owner/dashboard';
+      R();
+    } catch(err) { alert('Delete error: ' + err.message); }
+  },
+  async deleteRequest(reqId) {
+    if (!confirm('Delete this customer order?')) return;
+    try {
+      const res = await apiFetch(`/api/requests/${reqId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      A.modal();
+      await A.loadRequests();
+      showToast('Order removed.');
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+  async deleteProject(projId) {
+    if (!confirm('Delete this project and all its milestones?')) return;
+    try {
+      const res = await apiFetch(`/api/requests/projects/${projId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      await A.loadRequests();
+      showToast('Project removed.');
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+  async resetAllData() {
+    if (!confirm('RESET ALL APPLICATION DATA?\n\nThis clears all businesses, orders, projects and resources for a clean slate presentation.\nTrained ML models and datasets remain intact.\n\nProceed?')) return;
+    try {
+      const res = await apiFetch('/api/cleanup/reset-all', { method: 'POST' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      showToast('Application reset. Clean slate ready.');
+      S.biz = null; S.allBizList = []; S.marketList = []; S.reqs = []; S.recoveryAnalysis = null;
+      localStorage.removeItem('pp-current-biz-id');
+      await A.loadBusinesses();
+      await A.loadRequests();
+      location.hash = '#/marketplace';
+      R();
+    } catch(err) { alert('Reset error: ' + err.message); }
+  },
+
+  // Customer order submission: Price is automatically Product Price * Qty (No Budget input)
+  async submitReq(businessId) {
+    const form = S.orderForm;
+    const v = k => ($('#' + k)?.value || '').trim();
+
+    const errors = {};
+    const title = v('rq');
+    const notes = v('ds');
+    const deadline = v('dl');
+    const qty = parseInt($('#qt')?.value || '1', 10);
+
+    if (!form.selectedProduct && title.length < 3) errors.rq = 'Please choose a product or enter an order title.';
+    if (!deadline) errors.dl = 'Please select a required deadline date.';
+    if (!(qty >= 1)) errors.qt = 'Quantity must be at least 1.';
+
+    document.querySelectorAll('[data-e]').forEach(x => x.textContent = errors[x.dataset.e] || '');
+    if (Object.keys(errors).length) return;
+
+    const btn = $('#sub_req_btn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Placing Order...'; }
+
+    const prod = form.selectedProduct;
+    const reqTitle = prod ? `${prod.name} (${qty} ${prod.unit})` : title;
+    const description = notes || (prod ? `${prod.desc}` : 'Standard customized client order');
+    const calculatedBudget = prod ? (prod.priceFrom * qty).toFixed(2) : '50.00';
+
+    try {
+      const res = await apiFetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessId, requestTitle: reqTitle, description, budget: calculatedBudget, deadline, quantity: qty })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to submit order');
+
+      await A.loadRequests();
+
+      $('#rf').innerHTML = `<div class="emp" style="border-color:var(--ok)">
+        <div class="ic" style="color:var(--ok);background:rgba(14,159,110,.12)">${SVG.check}</div>
+        <h3>Order Submitted Successfully!</h3>
+        <p>Order <b>${esc(data.requestId)}</b> placed with total amount <b>$${calculatedBudget}</b>.</p>
+        <div style="background:var(--g);border-radius:14px;padding:16px;max-width:440px;margin:16px auto;text-align:left">
+          <div class="row sp sm"><span class="mu">Total Amount:</span><b>$${calculatedBudget}</b></div>
+          <div class="row sp sm" style="margin-top:6px"><span class="mu">Target Delivery:</span><b>${esc(deadline)}</b></div>
+          <div class="row sp sm" style="margin-top:6px"><span class="mu">Payment Method:</span><b>PayPal Sandbox Checkout</b></div>
+        </div>
+        <div class="row" style="justify-content:center;margin-top:18px;gap:12px">
+          <button class="btn paypal" onclick="alert('PayPal Sandbox Checkout: Verified test payment captured for order ${data.requestId}. Total: $${calculatedBudget}')">${SVG.paypal} Pay with PayPal Sandbox</button>
+          <a class="btn s" href="#/my-orders">View All My Orders</a>
+        </div>
+      </div>`;
+    } catch(err) {
+      alert('Order submission error: ' + err.message);
+      if (btn) { btn.disabled = false; btn.textContent = 'Submit Order'; }
+    }
+  },
+
+  // Owner Review Modal & direct Acceptance
+  async viewRequest(id) {
+    const r = S.reqs.find(x => x.id === id);
+    if (!r) return;
+    A.modal(`
+      <div class="row sp" style="margin-bottom:12px">
+        <div>
+          <h3 style="margin:0">${esc(r.requestTitle)}</h3>
+          <p class="mu sm" style="margin:4px 0 0">Customer: <b>${esc(r.customer_name || 'Client')}</b> &middot; Business: <b>${esc(r.businessName)}</b></p>
+        </div>
+        ${bdg(r.status)}
+      </div>
+      <div style="background:var(--g);padding:14px;border-radius:12px;margin-bottom:14px">
+        <b>Order Specifications:</b>
+        <p style="margin:4px 0 0;white-space:pre-wrap">${esc(r.description)}</p>
+      </div>
+      <div class="sm mu" style="margin-bottom:16px">
+        <span>Total: <b>$${esc(r.budget)}</b></span> &middot;
+        <span>Deadline: <b>${esc(r.deadline)}</b></span> &middot;
+        <span>Quantity: <b>${esc(r.quantity)}</b></span>
+      </div>
+      <div class="row sp">
+        <button class="btn s d" onclick="A.deleteRequest('${r.id}')">Delete Order</button>
+        <div class="row">
+          ${r.status === 'New' ? `
+            <button class="btn ok-btn" onclick="A.acceptRequest('${r.id}')">✓ Accept & Create Project</button>
+            <button class="btn d" onclick="A.rejectRequest('${r.id}')">Reject</button>
+          ` : ''}
+          <button class="btn s" onclick="A.modal()">Close</button>
+        </div>
+      </div>
+    `);
+  },
+
+  async acceptRequest(id) {
+    try {
+      const res = await apiFetch(`/api/requests/${id}/accept`, { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to accept order');
+      A.modal();
+      await A.loadRequests();
+      showToast('Order accepted! Project and milestones generated.');
+      location.hash = '#/owner/projects';
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  async rejectRequest(id) {
+    try {
+      const res = await apiFetch(`/api/requests/${id}/reject`, { method: 'POST' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      A.modal();
+      await A.loadRequests();
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+}; // end initial A (extended below after ONB_QUESTION_BANK)
+
+const ONB_QUESTION_BANK = {
+  'Printing': [
+    {
+      questionId: 'print_products',
+      question: 'What types of custom merchandise and printing do you produce?',
+      helpText: 'Select all products you handle to configure your production milestones.',
+      type: 'msq',
+      options: [
+        'Ceramic mugs, tumblers & drinkware (sublimation)',
+        'Custom apparel (t-shirts, hoodies, embroidered caps)',
+        'Vinyl banners, large-format posters & signage',
+        'Promotional gifts, tote bags & corporate swag packs',
+        'Paper print (stickers, labels, business cards, flyers)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Product Catalog'
+    },
+    {
+      questionId: 'print_production_equipment',
+      question: 'What is your primary production equipment setup?',
+      helpText: 'Calibrates machine availability and setup calibration stages.',
+      type: 'mcq',
+      options: [
+        'Dye-sublimation heat presses (mugs, tumblers, small gifts)',
+        'Direct-to-Film (DTF) & Screen Printing stations (garments)',
+        'Large-format UV flatbed or eco-solvent roll printers',
+        'Commercial digital laser presses & vinyl plotters'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Equipment & Methods'
+    },
+    {
+      questionId: 'print_team_size',
+      question: 'What is your operational team setup?',
+      helpText: 'Establishes staff availability and shift scheduling.',
+      type: 'mcq',
+      options: [
+        'Solo print specialist (1 person shop)',
+        'Small studio crew (2 to 3 operators & pre-press designer)',
+        'Mid-sized production facility (4 to 8 staff members)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Team Size'
+    },
+    {
+      questionId: 'print_turnaround',
+      question: 'What is your typical production turnaround for custom orders?',
+      helpText: 'Configures project deadline buffer timers and overdue risk detection.',
+      type: 'mcq',
+      options: [
+        '24 to 48 hours rapid express turnaround',
+        '3 to 5 business days standard batch production',
+        '1 to 2 weeks for bulk quantities & specialty orders',
+        'Scheduled delivery dates for recurring corporate batches'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Turnaround Times'
+    },
+    {
+      questionId: 'print_capacity',
+      question: 'How many active print jobs can your equipment handle simultaneously?',
+      helpText: 'Sets your concurrent project capacity limit in the Workload calendar.',
+      type: 'mcq',
+      options: [
+        '2 to 3 active orders concurrently',
+        '4 to 6 simultaneous print jobs (Recommended)',
+        '7 to 12 parallel production runs',
+        '15+ high-volume commercial runs'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Production Capacity'
+    },
+    {
+      questionId: 'print_supplies',
+      question: 'Which raw materials do you regularly restock from suppliers?',
+      helpText: 'Enables Resource Intelligence to predict inventory shortage delays.',
+      type: 'msq',
+      options: [
+        'Blank ceramic sublimation mugs & drinkware (3–5 day lead time)',
+        'Apparel blanks (cotton t-shirts, hoodies, caps) (2–4 day lead time)',
+        'Sublimation & UV ink sets, transfer paper & PET films (1–2 days)',
+        'Protective foam shipping boxes & custom packaging (1–3 days)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Resource Inventory'
+    }
+  ],
+  'Bakery': [
+    {
+      questionId: 'bake_specialty',
+      question: 'What types of baked orders do you primarily produce?',
+      helpText: 'Select all specialties that apply to your kitchen.',
+      type: 'msq',
+      options: [
+        'Custom event & celebration cakes (fondant, tiered, wedding)',
+        'Artisanal breads & daily sourdough loaves',
+        'Pastries, cookies & dessert treat boxes',
+        'Wholesale supply for local cafes and restaurants',
+        'Allergen-free (Gluten-free, vegan, nut-safe)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Kitchen Specialty'
+    },
+    {
+      questionId: 'bake_lead_time',
+      question: 'What is your required minimum advance notice for custom orders?',
+      helpText: 'Configures intake rules and deadline buffer warnings.',
+      type: 'mcq',
+      options: [
+        '24 to 48 hours notice',
+        '3 to 5 business days',
+        '1 to 2 weeks advance booking',
+        '1+ month for wedding / centerpiece orders'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Lead Times'
+    },
+    {
+      questionId: 'bake_team_size',
+      question: 'What is your operational kitchen staff setup?',
+      helpText: 'Establishes staff availability and baker shift scheduling.',
+      type: 'mcq',
+      options: [
+        'Solo pastry artisan / head baker (1 person)',
+        'Small kitchen crew (2 to 3 bakers & decorators)',
+        'Full bakery team (4 to 6 kitchen staff)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Kitchen Staff'
+    },
+    {
+      questionId: 'bake_delivery_mode',
+      question: 'How do customers receive their completed orders?',
+      helpText: 'Configures the final fulfillment phase in your workspace.',
+      type: 'mcq',
+      options: [
+        'Customer pickup at bakery / kitchen studio only',
+        'Direct hand-delivery by our kitchen staff',
+        'Third-party courier / on-demand driver',
+        'Temperature-controlled shipping'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Logistics'
+    },
+    {
+      questionId: 'bake_capacity',
+      question: 'How many custom orders can you comfortably handle per weekend?',
+      helpText: 'Prevents kitchen overbooking in your weekly Workload schedule.',
+      type: 'mcq',
+      options: [
+        '1 to 3 high-detail centerpiece cakes',
+        '4 to 8 medium custom cakes or boxes',
+        '9 to 20 volume orders',
+        '20+ volume batch orders'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Kitchen Capacity'
+    },
+    {
+      questionId: 'bake_payments',
+      question: 'How do you collect payments using PayPal?',
+      helpText: 'Sets up PayPal Sandbox order creation triggers.',
+      type: 'mcq',
+      options: [
+        '50% deposit via PayPal to book slot, 50% upon pickup/delivery',
+        '100% full payment upfront before baking starts',
+        'Reservation deposit, balance on delivery'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Payment Terms'
+    }
+  ],
+  'Software Development': [
+    {
+      questionId: 'dev_project_types',
+      question: 'What kind of software projects do you primarily deliver?',
+      helpText: 'Select all project domains you handle.',
+      type: 'msq',
+      options: [
+        'Full-stack custom web applications (React, Node, PostgreSQL, Next.js)',
+        'High-converting marketing sites & landing pages',
+        'E-commerce platforms & payment gateway integrations',
+        'Mobile apps (React Native, Flutter, iOS/Android)',
+        'APIs, automation scripts, and backend cloud systems'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Project Types'
+    },
+    {
+      questionId: 'dev_team_size',
+      question: 'What is your developer team setup?',
+      helpText: 'Tracks developer capacity and hour allocation.',
+      type: 'mcq',
+      options: [
+        'Solo freelance full-stack engineer (1 person)',
+        'Dev partnership (2 to 3 engineers & UI designer)',
+        'Agile product team (4 to 8 developers)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Team Capacity'
+    },
+    {
+      questionId: 'dev_approvals',
+      question: 'What approval checkpoints do you require from clients before coding?',
+      helpText: 'Establishes client governance gates before dev phases.',
+      type: 'mcq',
+      options: [
+        'Sign-off on written Scope of Work & wireframe mockups',
+        'Weekly sprint reviews and staging demonstrations',
+        'Final user acceptance testing (UAT) before live release',
+        'Flexible agile iteration without formal gates'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Client Governance'
+    },
+    {
+      questionId: 'dev_qa_process',
+      question: 'What quality assurance and testing steps are included in your workflow?',
+      helpText: 'Configures dedicated QA milestones.',
+      type: 'msq',
+      options: [
+        'Automated unit & integration tests',
+        'Manual cross-browser and mobile responsiveness audits',
+        'End-to-end automated testing (Playwright / Cypress)',
+        'Lighthouse performance and security audits'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'QA & Testing'
+    },
+    {
+      questionId: 'dev_concurrency',
+      question: 'How many active client projects can you manage simultaneously?',
+      helpText: 'Sets workload threshold warnings.',
+      type: 'mcq',
+      options: [
+        '1 dedicated project at a time (deep focus)',
+        '2 to 3 concurrent client projects',
+        '4 to 6 concurrent retainer tasks',
+        'Agency team managing multiple parallel pipelines'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Concurrency'
+    },
+    {
+      questionId: 'dev_billing',
+      question: 'How do you structure client payments via PayPal?',
+      helpText: 'Links milestone payments to PayPal Sandbox invoices.',
+      type: 'mcq',
+      options: [
+        '33% upfront, 33% on staging completion, 34% on final deployment',
+        '50% deposit upfront, 50% upon code handover',
+        'Monthly retainer billing via PayPal',
+        'Hourly invoices billed bi-weekly'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Milestone Payments'
+    }
+  ],
+  'Design Agency': [
+    {
+      questionId: 'design_services',
+      question: 'What creative services does your agency primarily offer?',
+      helpText: 'Select all design disciplines you deliver.',
+      type: 'msq',
+      options: [
+        'Brand identity systems (logos, color palettes, typography, guidelines)',
+        'UI/UX product design, mobile app wireframes & Figma prototypes',
+        'Print collateral, packaging & merchandise layouts',
+        'Marketing visuals, social media templates & advertising assets'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Design Services'
+    },
+    {
+      questionId: 'design_toolchain',
+      question: 'What is your primary creative toolchain?',
+      helpText: 'Calibrates asset export and master package milestones.',
+      type: 'mcq',
+      options: [
+        'Figma vector component systems & live interactive prototypes',
+        'Adobe Creative Cloud (Illustrator vector art, Photoshop, InDesign)',
+        'Hybrid studio suite (Figma + Adobe CC + 3D rendering)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Creative Tools'
+    },
+    {
+      questionId: 'design_team_size',
+      question: 'What is your studio creative team size?',
+      helpText: 'Determines designer availability and workload limits.',
+      type: 'mcq',
+      options: [
+        'Solo brand / UI designer (1 person)',
+        'Creative duo (Art Director + Visual Designer)',
+        'Design agency team (3 to 6 designers & strategists)'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Creative Team'
+    },
+    {
+      questionId: 'design_turnaround',
+      question: 'What is your typical delivery timeline for design packages?',
+      helpText: 'Sets baseline milestone buffer and overdue timers.',
+      type: 'mcq',
+      options: [
+        '3 to 7 business days for focused sprint assets',
+        '2 to 4 weeks for complete brand identity systems',
+        '4 to 8 weeks for comprehensive digital UI/UX projects'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Design Timelines'
+    },
+    {
+      questionId: 'design_capacity',
+      question: 'How many active client design projects do you handle concurrently?',
+      helpText: 'Sets concurrent project limit on your Workload calendar.',
+      type: 'mcq',
+      options: [
+        '1 to 2 deep-focus branding projects',
+        '3 to 5 simultaneous active client projects (Recommended)',
+        '6 to 10 parallel design retainers'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Studio Capacity'
+    },
+    {
+      questionId: 'design_revisions',
+      question: 'How are client feedback and revision rounds structured?',
+      helpText: 'Informs ML model regarding revision cycle buffers.',
+      type: 'mcq',
+      options: [
+        '2 rounds of structured consolidated client revisions included',
+        '3 rounds of iterative revisions with formal client sign-off',
+        'Unlimited agile revisions within active project timeline'
+      ],
+      allowsCustomInput: true,
+      categoryTag: 'Client Revisions'
+    }
+  ]
+};
+
+Object.assign(A, {
+  async toggleMilestone(milestoneId, ev) {
+    const scrollPos = window.scrollY;
+    if (ev && ev.target) {
+      const chk = ev.target;
+      const isDone = chk.checked;
+      const label = chk.closest('label');
+      if (label) {
+        label.classList.toggle('d', isDone);
+        const badge = label.querySelector('.bd');
+        if (badge) {
+          badge.className = `bd ${isDone ? 'ok' : 'n'}`;
+          badge.textContent = isDone ? 'Done' : 'Pending';
+        }
+      }
+    }
+    for (const r of S.reqs) {
+      if (r.milestones) {
+        const m = r.milestones.find(x => x.id === milestoneId);
+        if (m) {
+          m.done = !m.done;
+          const doneCount = r.milestones.filter(x => x.done).length;
+          r.progress = Math.round((doneCount / r.milestones.length) * 100);
+          r.status = r.progress === 100 ? 'Completed' : (r.progress > 0 ? 'In Progress' : 'Pending');
+          break;
+        }
+      }
+    }
+    try {
+      const res = await apiFetch(`/api/requests/milestones/${milestoneId}/toggle`, { method: 'POST' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      await A.loadRequests();
+      R(true);
+      window.scrollTo?.(0, scrollPos);
+    } catch(err) {
+      alert('Error: ' + err.message);
+      await A.loadRequests();
+      R(true);
+      window.scrollTo?.(0, scrollPos);
+    }
+  },
+
+  getInstantQuestion(category, index) {
+    const norm = (category || 'Printing').toLowerCase();
+    let catKey = 'Printing';
+    if (norm.includes('bake') || norm.includes('food')) catKey = 'Bakery';
+    else if (norm.includes('dev') || norm.includes('software')) catKey = 'Software Development';
+    else if (norm.includes('design') || norm.includes('creative')) catKey = 'Design Agency';
+    const list = ONB_QUESTION_BANK[catKey] || ONB_QUESTION_BANK['Printing'];
+    const idx = Math.min(Math.max(0, index), list.length - 1);
+    const q = list[idx];
+    return {
+      ...q,
+      questionIndex: idx,
+      isComplete: idx >= list.length - 1
+    };
+  },
+
+  // Onboarding
+  onbStartQuestions() {
+    const name = ($('#onb_bn')?.value || '').trim();
+    if (!name) { document.querySelector('[data-e=onb_bn]') && (document.querySelector('[data-e=onb_bn]').textContent = 'Please enter your business name.'); return; }
+    S.onbState.name = name;
+    S.onbState.desc = `${name} (${S.onbState.category})`;
+    S.onbState.step = 'questioning';
+    S.onbState.currentIndex = 0;
+    S.onbState.history = [];
+    S.onbState.currentSelection = null;
+    S.onbState.customText = '';
+    S.onbState.error = '';
+    S.onbState.prefetchedQuestion = null;
+    // Instant question appearance — 0ms delay!
+    S.onbState.currentQuestion = A.getInstantQuestion(S.onbState.category, 0);
+    R();
+    // Non-blocking prefetch in background
+    A.onbPrefetchQuestion(1);
+  },
+
+  async onbPrefetchQuestion(targetIndex) {
+    if (targetIndex >= 6) return;
+    try {
+      const res = await apiFetch('/api/onboarding/next-question', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessName: S.onbState.name, description: S.onbState.desc, category: S.onbState.category, questionIndex: targetIndex, history: S.onbState.history })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.question) {
+          S.onbState.prefetchedQuestion = data;
+        }
+      }
+    } catch(e) {}
+  },
+
+  async onbFetchNextQuestion() {
+    S.onbState.error = '';
+    S.onbState.currentSelection = null;
+    S.onbState.customText = '';
+    if (!S.onbState.currentQuestion || S.onbState.currentQuestion.questionIndex !== S.onbState.currentIndex) {
+      S.onbState.currentQuestion = A.getInstantQuestion(S.onbState.category, S.onbState.currentIndex);
+      R();
+    }
+    try {
+      const res = await apiFetch('/api/onboarding/next-question', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessName: S.onbState.name, description: S.onbState.desc, category: S.onbState.category, questionIndex: S.onbState.currentIndex, history: S.onbState.history })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.question) {
+          S.onbState.currentQuestion = data;
+          R();
+        }
+      }
+    } catch(err) {}
+  },
+
+  onbSelectOption(val) {
+    const q = S.onbState.currentQuestion;
+    if (!q) return;
+    if (q.type === 'msq') {
+      let arr = Array.isArray(S.onbState.currentSelection) ? [...S.onbState.currentSelection] : [];
+      S.onbState.currentSelection = arr.includes(val) ? arr.filter(x => x !== val) : [...arr, val];
+    } else {
+      S.onbState.currentSelection = val;
+    }
+    R();
+  },
+
+  async onbSubmitAnswerAndContinue() {
+    const q = S.onbState.currentQuestion;
+    if (!q) return;
+    let finalAnswer = S.onbState.currentSelection;
+    if (q.type === 'msq') {
+      if (!Array.isArray(finalAnswer) || finalAnswer.length === 0) { S.onbState.error = 'Please select at least one option.'; R(); return; }
+    } else {
+      if (!finalAnswer) { S.onbState.error = 'Please choose an option to continue.'; R(); return; }
+    }
+    S.onbState.history.push({ questionId: q.questionId, question: q.question, type: q.type, answer: finalAnswer, customText: S.onbState.customText.trim() });
+    S.onbState.currentIndex++;
+    if (q.isComplete || S.onbState.currentIndex >= 6) {
+      await A.onbGenerateWorkspace();
+    } else {
+      const nextIdx = S.onbState.currentIndex;
+      if (S.onbState.prefetchedQuestion && S.onbState.prefetchedQuestion.questionIndex === nextIdx) {
+        S.onbState.currentQuestion = S.onbState.prefetchedQuestion;
+        S.onbState.prefetchedQuestion = null;
+      } else {
+        S.onbState.currentQuestion = A.getInstantQuestion(S.onbState.category, nextIdx);
+      }
+      S.onbState.currentSelection = null;
+      S.onbState.customText = '';
+      S.onbState.error = '';
+      R();
+      A.onbPrefetchQuestion(nextIdx + 1);
+    }
+  },
+
+  onbGoBackOneQuestion() {
+    if (S.onbState.currentIndex > 0) {
+      S.onbState.currentIndex--;
+      const prev = S.onbState.history.pop();
+      S.onbState.currentQuestion = A.getInstantQuestion(S.onbState.category, S.onbState.currentIndex);
+      S.onbState.currentSelection = prev?.answer || null;
+      S.onbState.customText = prev?.customText || '';
+      S.onbState.error = '';
+      R();
+    } else { S.onbState.step = 'profile'; R(); }
+  },
+
+  async onbGenerateWorkspace() {
+    S.onbState.loading = true; S.onbState.error = ''; R();
+    const answersMap = {};
+    S.onbState.history.forEach((h, i) => { answersMap[h.questionId || `q_${i+1}`] = { question: h.question, answer: h.answer, custom: h.customText }; });
+    try {
+      const res = await apiFetch('/api/onboarding/generate-workspace', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessName: S.onbState.name, category: S.onbState.category, description: S.onbState.desc, answers: answersMap })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed');
+      S.onbState.workspaceConfig = data;
+      S.onbState.step = 'workspace';
+    } catch(err) { S.onbState.error = err.message; }
+    finally { S.onbState.loading = false; R(); }
+  },
+
+  async onbSaveAndLaunch() {
+    S.onbState.loading = true; S.onbState.error = ''; R();
+    const workingHours = $('#onb_wh')?.value || 'Mon–Fri, 9:00–17:00';
+    const capacity = parseInt($('#onb_cp')?.value, 10) || S.onbState.workspaceConfig?.initialCapacity || 5;
+    try {
+      const res = await apiFetch('/api/onboarding/save-session', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessName: S.onbState.name, category: S.onbState.category, description: S.onbState.desc, answers: S.onbState.history, workspaceConfig: S.onbState.workspaceConfig, services: S.onbState.workspaceConfig?.services || ['Custom Orders'], workingHours, capacity, published: true })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to save business');
+      S.biz = data.business;
+      try { localStorage.setItem('pp-current-biz-id', data.businessId); } catch(e) {}
+      await A.loadBusinesses();
+      await A.loadRequests();
+      showToast('Business workspace launched!');
+      A.switchPortal('owner');
+    } catch(err) { S.onbState.error = err.message; }
+    finally { S.onbState.loading = false; R(); }
+  },
+
+  async loadBusinesses() {
+    S.marketLoading = true;
+    try {
+      const [mktRes, allRes] = await Promise.all([apiFetch('/api/businesses'), apiFetch('/api/businesses?all=1')]);
+      const mktData = await mktRes.json(); const allData = await allRes.json();
+      if (mktData?.businesses) S.marketList = mktData.businesses;
+      if (allData?.businesses) {
+        S.allBizList = allData.businesses; S.bizList = allData.businesses;
+        const savedId = localStorage.getItem('pp-current-biz-id');
+        if (savedId) { const f = S.allBizList.find(b => b.id === savedId); if (f) S.biz = f; }
+        if (!S.biz && S.allBizList.length) S.biz = S.allBizList[0];
+      }
+    } catch(err) { console.warn('Load businesses:', err); }
+    finally { S.marketLoading = false; }
+  },
+
+  async loadRequests() {
+    try {
+      const res = await apiFetch('/api/requests');
+      const data = await res.json();
+      if (data?.requests) S.reqs = data.requests;
+      if (S.biz?.id) {
+        try {
+          const mlRes = await apiFetch(`/api/requests/recovery/analysis?businessId=${encodeURIComponent(S.biz.id)}`);
+          if (mlRes.ok) S.recoveryAnalysis = await mlRes.json();
+        } catch(_) {}
+        try {
+          const rRes = await apiFetch(`/api/requests/resources?businessId=${encodeURIComponent(S.biz.id)}`);
+          if (rRes.ok) S.resourcesData = await rRes.json();
+        } catch(_) {}
+      }
+    } catch(err) { console.warn('Load requests:', err); }
+  },
+
+  async loadHealth() {
+    try { const res = await apiFetch('/api/health'); S.health = await res.json(); }
+    catch(e) { S.health = { status: 'healthy', ml: { ready: true }, ai: { fallbackReady: true } }; }
+  },
+
+  async publishBusiness(bizId, publish) {
+    try {
+      const res = await apiFetch(`/api/businesses/${bizId}/publish`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ published: publish }) });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      await A.loadBusinesses();
+      showToast(publish ? 'Business published to Marketplace!' : 'Business unlisted');
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  async updateCapacity(bizId, newCapacity) {
+    try {
+      const res = await apiFetch(`/api/businesses/${bizId}/capacity`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ capacity: parseInt(newCapacity, 10) }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed');
+      if (S.biz?.id === bizId) S.biz.capacity = data.capacity;
+      await A.loadBusinesses();
+      await A.loadRequests();
+      showToast('Capacity updated.');
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  async approveRecoveryPlan(businessId, action, projectId, milestoneId, resourceId) {
+    try {
+      const res = await apiFetch('/api/requests/recovery/action', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessId, action, projectId, milestoneId, resourceId })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed');
+      showToast('✓ Recovery Action Applied');
+      await A.loadRequests();
+      if (projectId) {
+        setTimeout(() => { location.hash = '#/owner/projects'; R(); }, 350);
+      } else {
+        R();
+      }
+    } catch(err) { alert('Execution error: ' + err.message); }
+  },
+
+  // Batch recovery: execute multiple selected actions in one API call
+  async applySelectedRecoveryActions(businessId) {
+    const checkboxes = document.querySelectorAll('.recovery-action-cb:checked');
+    if (!checkboxes.length) {
+      showToast('Select at least one recovery action to apply.', true);
+      return;
+    }
+    const actions = Array.from(checkboxes).map(cb => JSON.parse(decodeURIComponent(cb.dataset.action)));
+    const btn = document.getElementById('batch-recovery-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Applying...'; }
+    try {
+      const res = await apiFetch('/api/requests/recovery/batch-action', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessId, actions })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Batch action failed');
+      showToast(`✓ ${data.executedCount} of ${data.totalCount} actions applied. ${data.remainingRiskCount} risks remaining.`);
+      await A.loadRequests();
+      R();
+    } catch(err) {
+      alert('Batch execution error: ' + err.message);
+      if (btn) { btn.disabled = false; btn.textContent = 'Apply Selected Actions'; }
+    }
+  },
+
+  async rejectRecoveryPlan(businessId, planId) {
+    try {
+      const res = await apiFetch('/api/requests/recovery/reject-plan', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessId, planId, reason: 'Owner opted not to proceed' })
+      });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      await A.loadRequests();
+      showToast('Recovery proposal rejected.');
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  async updateResourceStock(resourceId, newAvail) {
+    const val = parseFloat(newAvail);
+    if (isNaN(val) || val < 0) {
+      alert('Validation Error: Stock quantity must be a non-negative number.');
+      return;
+    }
+    try {
+      const res = await apiFetch(`/api/requests/resources/${resourceId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ availableQuantity: val }) });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      showToast('Stock quantity updated.');
+      await A.loadRequests();
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  async openReorderModal(resourceId, resourceName, costPerUnit, unit, leadTime) {
+    A.modal(`
+      <div class="row sp" style="margin-bottom:12px">
+        <div>
+          <h3 style="margin:0">Order Supplier Restock</h3>
+          <p class="mu sm" style="margin:4px 0 0">Resource: <b>${esc(resourceName)}</b></p>
+        </div>
+        <span class="bd ok">Estimated Lead: ${leadTime} days</span>
+      </div>
+      <div style="background:var(--g);border-radius:14px;padding:16px;margin-bottom:16px">
+        <div class="row sp sm"><span class="mu">Unit Cost:</span><b>$${costPerUnit} / ${esc(unit)}</b></div>
+        <div class="row sp sm" style="margin-top:6px"><span class="mu">Supplier Lead Time:</span><b>~${leadTime} days delivery</b></div>
+      </div>
+      <div class="f">
+        <label for="reorder_qty">Quantity to Order (${esc(unit)})</label>
+        <input id="reorder_qty" type="number" min="1" value="20" oninput="
+          const q = parseInt(this.value,10)||0;
+          document.getElementById('reorder_cost').textContent = '$' + (q * ${costPerUnit}).toFixed(2);
+        ">
+      </div>
+      <div class="row sp" style="margin:16px 0;padding:12px 14px;background:var(--g);border-radius:12px">
+        <b>Total Order Price:</b>
+        <b id="reorder_cost" style="color:var(--pri);font-size:1.2rem">$${(20 * costPerUnit).toFixed(2)}</b>
+      </div>
+      <div class="row sp" style="margin-top:20px">
+        <button class="btn s" onclick="A.modal()">Cancel</button>
+        <button class="btn paypal" onclick="A.placeReorder('${resourceId}', document.getElementById('reorder_qty').value)">
+          ${SVG.paypal} Pay & Place Supplier Order
+        </button>
+      </div>
+    `);
+  },
+
+  async placeReorder(resourceId, quantity) {
+    try {
+      const res = await apiFetch(`/api/requests/resources/${resourceId}/reorder`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to place reorder');
+      A.modal(`
+        <div class="emp" style="border-color:var(--ok)">
+          <div class="ic" style="color:var(--ok);background:rgba(14,159,110,.14)">${SVG.check}</div>
+          <h3>Supplier Order Placed!</h3>
+          <p>Order ID: <b>${data.orderId}</b> &middot; Total: <b>$${data.totalCost}</b></p>
+          <p class="sm mu">Expected delivery by: <b>${data.expectedDelivery}</b>. Stock will update upon delivery confirmation.</p>
+          <div class="row" style="justify-content:center;margin-top:16px;gap:12px">
+            <button class="btn ok-btn" onclick="A.confirmDelivery('${resourceId}', ${data.quantity})">✓ Confirm Delivery & Add to Stock</button>
+            <button class="btn s" onclick="A.modal();R()">Done</button>
+          </div>
+        </div>
+      `);
+      await A.loadRequests();
+    } catch(err) { alert('Reorder error: ' + err.message); }
+  },
+
+  async confirmDelivery(resourceId, quantity) {
+    try {
+      const res = await apiFetch(`/api/requests/resources/${resourceId}/confirm-delivery`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity })
+      });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      showToast('Delivery confirmed and inventory stock updated!');
+      A.modal();
+      await A.loadRequests();
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  async deleteResource(resourceId) {
+    if (!confirm('Delete this resource?')) return;
+    try {
+      const res = await apiFetch(`/api/requests/resources/${resourceId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed');
+      await A.loadRequests();
+      showToast('Resource removed.');
+      R();
+    } catch(err) { alert('Error: ' + err.message); }
+  },
+
+  navigateToRecovery(riskId) {
+    S.selectedRiskId = riskId;
+    location.hash = '#/owner/recovery';
+    R();
+  }
+}); // end Object.assign(A, ...)
+
+// ================================================================
+// VIEWS
+// ================================================================
+const P = {
+  // ---- HOMEPAGE (Matching Uploaded Image Reference Style) ----
+  '': () => shell(`<section class="hx wrap">
+    <h1>Your business.<br>Your workflow.<br>All in one place.</h1>
+    <p>PayPilot's adaptive AI agent creates customized small-business workspaces, runs real-world ML delay predictions, and generates actionable operational recovery plans.</p>
+    <div class="row" style="justify-content:center;gap:14px;margin:24px 0">
+      <a class="btn" style="padding:.8em 2em;font-size:1.05rem" href="#/marketplace">Browse Marketplace</a>
+      <a class="btn portal-switch" style="padding:.8em 2em;font-size:1.05rem" href="#/owner/dashboard" onclick="A.switchPortal('owner')">Business Portal ⇄</a>
+      <a class="btn s" style="padding:.8em 2em;font-size:1.05rem" href="#/owner/onboarding">Register Business</a>
+    </div>
+
+    <!-- 4 Standing Rectangular Category Cards -->
+    <div class="cat-col">
+      <div class="cat-box" style="background:var(--print-bg);border-color:var(--print-bd)">
+        <div>
+          <div class="badge-circle" style="background:#fff">${SVG.print}</div>
+          <span class="bd" style="background:#fff;color:var(--print-tx);font-size:.75rem">Printing & Merchandise</span>
+          <h3 style="margin:12px 0 6px;color:var(--print-tx)">Printing</h3>
+          <p class="sm" style="color:var(--print-tx);opacity:.85;margin:0 0 16px">Custom sublimation mugs, DTF apparel, vinyl banners and business cards.</p>
+        </div>
+        <a class="btn" href="#/marketplace" style="background:var(--print-acc);color:#fff;border-color:transparent;width:100%">Explore Printers →</a>
+      </div>
+
+      <div class="cat-box" style="background:var(--bakery-bg);border-color:var(--bakery-bd)">
+        <div>
+          <div class="badge-circle" style="background:#fff">${SVG.bakery}</div>
+          <span class="bd" style="background:#fff;color:var(--bakery-tx);font-size:.75rem">Bakery & Food Business</span>
+          <h3 style="margin:12px 0 6px;color:var(--bakery-tx)">Bakery</h3>
+          <p class="sm" style="color:var(--bakery-tx);opacity:.85;margin:0 0 16px">Custom tiered cakes, artisan sourdough loaves, decorated cupcakes and dessert packages.</p>
+        </div>
+        <a class="btn" href="#/marketplace" style="background:var(--bakery-acc);color:#fff;border-color:transparent;width:100%">Explore Bakeries →</a>
+      </div>
+
+      <div class="cat-box" style="background:var(--soft-bg);border-color:var(--soft-bd)">
+        <div>
+          <div class="badge-circle" style="background:#fff">${SVG.software}</div>
+          <span class="bd" style="background:#fff;color:var(--soft-tx);font-size:.75rem">Software Development</span>
+          <h3 style="margin:12px 0 6px;color:var(--soft-tx)">Software Dev</h3>
+          <p class="sm" style="color:var(--soft-tx);opacity:.85;margin:0 0 16px">Web applications, responsive websites, REST APIs, mobile apps and software maintenance.</p>
+        </div>
+        <a class="btn" href="#/marketplace" style="background:var(--soft-acc);color:#fff;border-color:transparent;width:100%">Explore Devs →</a>
+      </div>
+
+      <div class="cat-box" style="background:var(--design-bg);border-color:var(--design-bd)">
+        <div>
+          <div class="badge-circle" style="background:#fff">${SVG.design}</div>
+          <span class="bd" style="background:#fff;color:var(--design-tx);font-size:.75rem">Design Agency</span>
+          <h3 style="margin:12px 0 6px;color:var(--design-tx)">Design Agency</h3>
+          <p class="sm" style="color:var(--design-tx);opacity:.85;margin:0 0 16px">Brand identity systems, vector logos, social media packs, posters and UI/UX prototypes.</p>
+        </div>
+        <a class="btn" href="#/marketplace" style="background:var(--design-acc);color:#fff;border-color:transparent;width:100%">Explore Agencies →</a>
+      </div>
+    </div>
+  </section>`),
+
+  // ---- MARKETPLACE ----
+  'marketplace': () => {
+    const q = S.q.toLowerCase();
+    const list = S.marketList || [];
+    const filtered = list.filter(b => (S.cat === 'All' || b.category.includes(S.cat)) && (!q || [b.name, b.category, b.description].join(' ').toLowerCase().includes(q)));
+
+    return shell(`<div class="wrap sec">
+      <div class="row sp" style="margin-bottom:20px">
+        <div>
+          <h1 style="font-size:2.2rem;margin:0">Verified Business Marketplace</h1>
+          <p class="mu" style="margin:4px 0 0">Discover verified small businesses and submit orders directly.</p>
+        </div>
+        <a class="btn portal-switch" href="#/owner/dashboard" onclick="A.switchPortal('owner')">Business Portal ⇄</a>
+      </div>
+
+      <div class="f">
+        <input style="max-width:480px" placeholder="Search businesses or services..." value="${esc(S.q)}" oninput="S.q=this.value;R()">
+      </div>
+      <div style="margin-bottom:22px">
+        ${['All', ...CATS].map(c => `<button class="chip ${S.cat === c ? 'on' : ''}" onclick="A.cat('${c}')">${c}</button>`).join('')}
+      </div>
+
+      ${S.marketLoading ? `<div class="emp"><div class="ld" style="margin:0 auto 16px"></div><p class="mu">Loading verified businesses...</p></div>`
+       : filtered.length ? `<div class="grid g3">${filtered.map(bizCard).join('')}</div>`
+       : `<div class="emp">
+            <div class="ic">${SVG.box}</div>
+            <h3>No businesses listed yet</h3>
+            <p class="mu">Register your business via AI Onboarding to see it listed here immediately.</p>
+            <a class="btn" href="#/owner/onboarding">Register Business Now →</a>
+          </div>`}
+    </div>`);
+  },
+
+  // ---- BUSINESS PROFILE & PRODUCT CATALOG ----
+  'business': id => {
+    const b = (S.marketList?.find(x => x.id === id)) || (S.allBizList?.find(x => x.id === id)) || { id, name: 'Business Profile', category: 'Printing', description: 'Small business workspace', services: [], working_hours: 'Mon–Fri, 9:00–17:00' };
+    const catBg = getCatBg(b.category);
+    const catAcc = getCatAccent(b.category);
+    const catBorder = getCatBorder(b.category);
+    const catKey = Object.keys(PRODUCT_CATALOG).find(k => b.category.toLowerCase().includes(k.toLowerCase().split(' ')[0])) || b.category;
+    const products = PRODUCT_CATALOG[catKey] || PRODUCT_CATALOG['Printing'];
+
+    return shell(`<div class="wrap sec">
+      ${crumb([['Marketplace', '#/marketplace'], [esc(b.name)]])}
+      
+      <div class="card" style="border-color:${catBorder};padding:0;overflow:hidden;margin-bottom:28px">
+        <div style="background:${catBg};padding:32px 28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+          <div class="badge-circle" style="background:#fff;width:88px;height:88px">${getCatSvg(b.category)}</div>
+          <div style="flex:1">
+            <span class="bd" style="background:#fff;color:${catAcc};margin-bottom:6px">${esc(b.category)}</span>
+            <h1 style="font-size:2rem;margin:4px 0 6px;color:${catAcc}">${esc(b.name)}</h1>
+            <p style="margin:0;color:var(--tx);max-width:620px">${esc(b.description)}</p>
+          </div>
+          <a class="btn" style="background:${catAcc};border-color:transparent;color:#fff;padding:.8em 1.8em;font-size:1rem" href="#/request/${b.id}">Place Customer Order →</a>
+        </div>
+        <div class="grid g3" style="padding:20px 28px;border-top:1px solid var(--bd);background:var(--card)">
+          <div><div class="mu sm">Operating Schedule</div><b>${esc(b.working_hours || 'Mon–Fri, 9:00–17:00')}</b></div>
+          <div><div class="mu sm">Concurrent Capacity</div><b>${esc(b.capacity || 5)} active project slots</b></div>
+          <div><div class="mu sm">Service Status</div><span class="bd ok">Accepting New Orders</span></div>
+        </div>
+      </div>
+
+      <div class="row sp" style="margin-bottom:16px">
+        <div>
+          <h2 style="margin:0">Product & Service Catalog</h2>
+          <p class="mu sm" style="margin:4px 0 0">Select an item below to automatically calculate prices and turnaround times.</p>
+        </div>
+      </div>
+
+      <div class="grid g3" style="margin-bottom:32px">
+        ${products.map(p => `
+          <div class="prod-card" onclick="S.orderForm.selectedProduct=${JSON.stringify(p).replace(/"/g,"'")};location.hash='#/request/${b.id}';R()">
+            <div style="background:${catBg};border-radius:14px;padding:20px;text-align:center;margin-bottom:14px">
+              <div style="display:inline-block">${p.svg}</div>
+            </div>
+            <h4 style="margin:0 0 6px">${esc(p.name)}</h4>
+            <p class="sm mu" style="margin:0 0 12px;flex:1">${esc(p.desc)}</p>
+            <div class="row sp" style="margin-top:auto;padding-top:10px;border-top:1px solid var(--bd)">
+              <div>
+                <span class="sm mu">From</span>
+                <div style="font-size:1.15rem;font-weight:800;color:${catAcc}">$${p.priceFrom} <span style="font-size:.78rem;font-weight:500;color:var(--mu)">/ ${p.pricePer}</span></div>
+              </div>
+              <span class="btn s" style="font-size:.82rem;padding:.35em .85em">Order →</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`);
+  },
+
+  // ---- ORDER FORM (Price auto-calculated from Product * Quantity — No Budget input) ----
+  'request': id => {
+    const b = S.allBizList.find(x => x.id === id) || S.marketList.find(x => x.id === id) || { id, name: 'Business', category: 'Printing' };
+    const catKey = Object.keys(PRODUCT_CATALOG).find(k => b.category.toLowerCase().includes(k.toLowerCase().split(' ')[0])) || b.category;
+    const products = PRODUCT_CATALOG[catKey] || PRODUCT_CATALOG['Printing'];
+    const catAcc = getCatAccent(b.category);
+    const sel = S.orderForm?.selectedProduct;
+
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    const minDate = tomorrow.toISOString().split('T')[0];
+
+    return shell(`<div class="wrap sec" style="max-width:820px">
+      ${crumb([['Marketplace', '#/marketplace'], [esc(b.name), '#/business/' + b.id], ['Order Details']])}
+      
+      <div id="rf">
+        <h1 style="font-size:2rem;margin-bottom:4px">Order from ${esc(b.name)}</h1>
+        <p class="mu" style="margin-bottom:24px">Choose a product/service, specify quantity and required delivery date.</p>
+
+        <!-- Product Selector Grid -->
+        <div class="card" style="margin-bottom:20px">
+          <h3 style="margin:0 0 14px">1. Select Catalog Item</h3>
+          <div class="grid g3">
+            ${products.map(p => `
+              <div class="prod-card ${sel?.id === p.id ? 'selected' : ''}" onclick="S.orderForm.selectedProduct=${JSON.stringify(p).replace(/"/g,"'")};R()">
+                <div style="margin-bottom:10px">${p.svg}</div>
+                <b style="font-size:.92rem;display:block;margin-bottom:2px">${esc(p.name)}</b>
+                <div style="font-size:1.05rem;font-weight:800;color:${catAcc}">$${p.priceFrom} <span style="font-size:.75rem;font-weight:500;color:var(--mu)">/${p.pricePer}</span></div>
+                <div class="sm mu" style="margin-top:4px">Normal: ${p.normalDays}d &middot; Urgent: ${p.urgentDays}d</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Order Form Card -->
+        <div class="card">
+          <h3 style="margin:0 0 16px">2. Order Specifications</h3>
+          
+          ${sel ? `
+            <div style="background:var(--g);border-radius:14px;padding:16px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+              <div>
+                <b style="font-size:1rem">${esc(sel.name)}</b>
+                <div class="sm mu">${esc(sel.desc)}</div>
+              </div>
+              <div class="row" style="gap:16px">
+                <div style="text-align:right">
+                  <div class="sm mu">Unit Rate</div>
+                  <b style="color:var(--pri);font-size:1.1rem">$${sel.priceFrom} / ${sel.pricePer}</b>
+                </div>
+                <div style="text-align:right">
+                  <div class="sm mu">Turnaround</div>
+                  <b>${sel.normalDays} days normal</b>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="f">
+            <label for="rq">Order Title</label>
+            <input id="rq" value="${sel ? esc(sel.name) : ''}" placeholder="e.g. 50 Custom Ceramic Mugs">
+            <div class="er-msg" data-e="rq"></div>
+          </div>
+
+          <div class="f">
+            <label for="ds">Order Requirements & Artwork Details</label>
+            <textarea id="ds" rows="3" placeholder="Colors, specifications, dimensions, reference links...">${sel ? esc(sel.desc) : ''}</textarea>
+            <div class="er-msg" data-e="ds"></div>
+          </div>
+
+          <div class="grid g2">
+            <div class="f">
+              <label for="qt">Quantity (${sel ? esc(sel.unit) : 'units'})</label>
+              <input id="qt" type="number" min="1" value="1" oninput="
+                const q = parseInt(this.value,10)||1;
+                const unitPrice = ${sel ? sel.priceFrom : 50};
+                document.getElementById('calc_price').textContent = '$' + (q * unitPrice).toFixed(2);
+              ">
+              <div class="er-msg" data-e="qt"></div>
+            </div>
+            <div class="f">
+              <label for="dl">Required Delivery Deadline</label>
+              <input id="dl" type="date" min="${minDate}">
+              <div class="er-msg" data-e="dl"></div>
+            </div>
+          </div>
+
+          <!-- Price Display (Auto-calculated) -->
+          <div style="background:var(--g);border:1.5px solid var(--bd);border-radius:14px;padding:16px 20px;margin:20px 0;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span class="sm mu" style="display:block">Calculated Order Total</span>
+              <span class="sm mu">Price is calculated automatically from unit rate &times; quantity</span>
+            </div>
+            <div style="text-align:right">
+              <b id="calc_price" style="font-size:1.8rem;color:${catAcc}">$${sel ? (sel.priceFrom * 1).toFixed(2) : '50.00'}</b>
+            </div>
+          </div>
+
+          <div class="row sp" style="margin-top:24px">
+            <a class="btn s" href="#/business/${b.id}">Cancel</a>
+            <button id="sub_req_btn" class="btn" style="background:${catAcc};border-color:transparent;color:#fff;padding:.8em 2em;font-size:1rem" onclick="A.submitReq('${b.id}')">Submit Customer Order →</button>
+          </div>
+        </div>
+      </div>
+    </div>`);
+  },
+
+  // ---- MY ORDERS ----
+  'my-orders': () => shell(`<div class="wrap sec">
+    <div class="row sp" style="margin-bottom:20px">
+      <div>
+        <h1 style="font-size:2.2rem;margin:0">My Orders</h1>
+        <p class="mu" style="margin:4px 0 0">Track live order review status, project milestones, and PayPal checkout.</p>
+      </div>
+      <a class="btn portal-switch" href="#/owner/dashboard" onclick="A.switchPortal('owner')">Business Portal ⇄</a>
+    </div>
+
+    ${S.reqs.length ? `<div class="grid">${S.reqs.map(r => `
+      <a class="card" href="#/order/${r.id}" style="display:block">
+        <div class="row sp">
+          <h3 style="margin:0">${esc(r.requestTitle)}</h3>
+          ${bdg(r.status)}
+        </div>
+        <p class="mu sm" style="margin:6px 0">Business: <b>${esc(r.businessName)}</b> &middot; Total: <b>$${esc(r.budget)}</b> &middot; Due: <b>${esc(r.deadline)}</b></p>
+        ${r.project ? `
+          <div style="margin-top:12px">
+            <div class="row sp sm"><span class="mu">Progress:</span><b>${r.project.progressPercentage}% Complete</b></div>
+            <div class="pg" style="margin-top:5px"><b style="width:${r.project.progressPercentage}%"></b></div>
+          </div>
+        ` : '<p class="sm mu" style="margin:8px 0 0">Awaiting business owner acceptance & milestone setup.</p>'}
+      </a>
+    `).join('')}</div>` : `<div class="emp">
+      <div class="ic">${SVG.projects}</div>
+      <h3>No orders placed yet</h3>
+      <p class="mu">Explore the marketplace to discover verified businesses and place orders.</p>
+      <a class="btn" href="#/marketplace">Browse Marketplace →</a>
+    </div>`}
+  </div>`),
+
+  // ---- ORDER DETAILS ----
+  'order': id => {
+    const r = S.reqs.find(x => x.id === id);
+    if (!r) return shell(`<div class="wrap sec"><div class="emp"><h3>Order not found</h3><a class="btn" href="#/my-orders">Back</a></div></div>`);
+    const p = r.project;
+
+    return shell(`<div class="wrap sec">
+      ${crumb([['My Orders', '#/my-orders'], [esc(r.requestTitle)]])}
+      <div class="row sp" style="margin:14px 0 20px">
+        <div>
+          <h1 style="font-size:2rem;margin:0">${esc(r.requestTitle)}</h1>
+          <p class="mu" style="margin:4px 0 0">Placed with <b>${esc(r.businessName)}</b> &middot; Due: <b>${esc(r.deadline)}</b></p>
+        </div>
+        ${bdg(r.status)}
+      </div>
+
+      <div class="grid g2">
+        <div class="card">
+          <h3>Order Information</h3>
+          <p style="white-space:pre-wrap;margin:12px 0">${esc(r.description)}</p>
+          <div style="background:var(--g);border-radius:12px;padding:14px;margin-top:16px" class="sm">
+            <div class="row sp"><span class="mu">Total Amount:</span><b>$${esc(r.budget)}</b></div>
+            <div class="row sp" style="margin-top:6px"><span class="mu">Quantity:</span><b>${esc(r.quantity)}</b></div>
+            <div class="row sp" style="margin-top:6px"><span class="mu">Payment Method:</span><b>PayPal Sandbox</b></div>
+          </div>
+          <div style="margin-top:16px">
+            <button class="btn paypal" style="width:100%" onclick="alert('PayPal Sandbox Checkout: Verified server-side payment for Order ${r.id} ($${r.budget}).')">
+              ${SVG.paypal} Complete Payment ($${esc(r.budget)})
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row sp">
+            <h3>Project Milestones</h3>
+            ${p ? `<span class="bd ok">${p.progressPercentage}% Done</span>` : ''}
+          </div>
+          ${p ? `
+            <div class="pg" style="margin:12px 0 16px"><b style="width:${p.progressPercentage}%"></b></div>
+            <div>${(p.milestones || []).map(m => `
+              <div class="ms ${m.done ? 'd' : ''}">
+                <span style="font-weight:700;color:${m.done ? 'var(--ok)' : 'var(--mu)'};padding-top:3px;line-height:1">${m.done ? SVG.check : '○'}</span>
+                <div style="min-width:0">
+                  <b class="ms-title" style="font-size:.93rem;display:block">${esc(m.title)}</b>
+                  ${m.description ? `<p class="sm mu" style="margin:2px 0 0;white-space:normal">${esc(m.description)}</p>` : ''}
+                </div>
+                <span class="bd ${m.done ? 'ok' : 'n'}" style="white-space:nowrap;flex-shrink:0">${m.done ? 'Done' : 'Pending'}</span>
+              </div>
+            `).join('')}</div>
+          ` : '<p class="mu" style="margin-top:12px">Milestones will activate automatically as soon as the business owner reviews and accepts your order.</p>'}
+        </div>
+      </div>
+    </div>`);
+  },
+
+  // ---- ADAPTIVE ONBOARDING ----
+  'owner/onboarding': () => {
+    const st = S.onbState;
+    const catBg = getCatBg(st.category);
+    const catAcc = getCatAccent(st.category);
+
+    return owner('onboarding', `
+      <div style="max-width:760px;margin:0 auto">
+        <div class="row sp" style="margin-bottom:18px">
+          <div>
+            <h1 style="font-size:2rem;margin:0">Adaptive AI Business Setup</h1>
+            <p class="mu" style="margin:4px 0 0">Answer 6 adaptive questions to configure your custom workspace.</p>
+          </div>
+          <span class="bd ai">Adaptive Engine</span>
+        </div>
+
+        ${st.error ? `<div class="card" style="border-color:var(--er);background:rgba(209,67,67,.08);margin-bottom:18px;color:var(--er)"><b>Notice:</b> ${esc(st.error)}</div>` : ''}
+
+        ${st.step === 'profile' ? `
+          <div class="card">
+            <h3 style="margin:0 0 6px">Register Business Profile</h3>
+            <p class="mu sm" style="margin-bottom:20px">Enter business name and select your operating category:</p>
+
+            <div class="f">
+              <label for="onb_bn">Business Name</label>
+              <input id="onb_bn" value="${esc(st.name)}" placeholder="e.g. Apex Prints, Sweet Crumb Bakery, Northwind Dev..." style="font-size:1.05rem">
+              <div class="er-msg" data-e="onb_bn"></div>
+            </div>
+
+            <div class="f">
+              <label style="margin-bottom:10px">Select Operating Category</label>
+              <div class="grid g2" style="gap:12px">
+                ${[
+                  { id: 'Printing', name: 'Printing & Custom Merchandise', svg: SVG.print, desc: 'Mugs, apparel, vinyl, banners & sublimation' },
+                  { id: 'Bakery', name: 'Bakery & Food Business', svg: SVG.bakery, desc: 'Cakes, pastries, bread, cupcakes & food' },
+                  { id: 'Software Development', name: 'Software Development', svg: SVG.software, desc: 'Web apps, APIs, websites & tech platforms' },
+                  { id: 'Design Agency', name: 'Design Agency', svg: SVG.design, desc: 'Brand identity, logos, UI/UX & creative assets' }
+                ].map(c => `
+                  <div class="card" style="padding:16px;border:2px solid ${st.category === c.id ? 'var(--pri)' : 'var(--bd)'};background:${st.category === c.id ? 'var(--g)' : 'var(--card)'};cursor:pointer;transition:all .15s"
+                    onclick="S.onbState.category='${c.id}';R()">
+                    <div class="row sp">
+                      <div class="badge-circle" style="background:#fff;width:52px;height:52px;margin:0">${c.svg}</div>
+                      ${st.category === c.id ? '<span class="bd ok">Selected</span>' : ''}
+                    </div>
+                    <b style="display:block;margin:10px 0 2px">${c.name}</b>
+                    <p class="sm mu" style="margin:0">${c.desc}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="row sp" style="margin-top:24px;padding-top:16px;border-top:1px solid var(--bd)">
+              <span class="sm mu">6 tailored questions will configure capacity, lead times and workflow.</span>
+              <button class="btn" onclick="A.onbStartQuestions()" ${st.loading ? 'disabled' : ''}>
+                ${st.loading ? '<span class="spinner"></span> Starting...' : 'Start AI Interview →'}
+              </button>
+            </div>
+          </div>
+        ` : ''}
+
+        ${st.step === 'questioning' && st.currentQuestion ? `
+          <div class="card" style="border-top:4px solid ${catAcc}">
+            <div class="row sp" style="margin-bottom:12px">
+              <div class="row" style="gap:8px">
+                <span class="bd ok">Question ${st.currentIndex + 1} of 6</span>
+                <span class="bd">${esc(st.category)}</span>
+                ${st.currentQuestion.type === 'msq' ? '<span class="bd wa">Select All That Apply</span>' : '<span class="bd">Single Choice</span>'}
+              </div>
+              <span class="sm mu">AI-Tailored</span>
+            </div>
+
+            <h2 style="font-size:1.35rem;margin-bottom:6px">${esc(st.currentQuestion.question)}</h2>
+            <p class="mu sm" style="margin-bottom:20px">${esc(st.currentQuestion.helpText || '')}</p>
+
+            <div>
+              ${(st.currentQuestion.options || []).map(opt => {
+                const isChecked = st.currentQuestion.type === 'msq'
+                  ? Array.isArray(st.currentSelection) && st.currentSelection.includes(opt)
+                  : st.currentSelection === opt;
+                return `
+                  <label class="opt-choice ${isChecked ? 'selected' : ''}" onclick="A.onbSelectOption('${esc(opt)}')">
+                    <input type="${st.currentQuestion.type === 'msq' ? 'checkbox' : 'radio'}" name="opt_choice" ${isChecked ? 'checked' : ''} readonly>
+                    <span style="font-size:.95rem">${esc(opt)}</span>
+                  </label>
+                `;
+              }).join('')}
+
+              ${st.currentQuestion.allowsCustomInput ? `
+                <label class="opt-choice ${(st.currentQuestion.type === 'msq' ? Array.isArray(st.currentSelection) && st.currentSelection.includes('__OTHER__') : st.currentSelection === '__OTHER__') ? 'selected' : ''}" onclick="A.onbSelectOption('__OTHER__')">
+                  <input type="${st.currentQuestion.type === 'msq' ? 'checkbox' : 'radio'}" name="opt_choice" ${(st.currentQuestion.type === 'msq' ? Array.isArray(st.currentSelection) && st.currentSelection.includes('__OTHER__') : st.currentSelection === '__OTHER__') ? 'checked' : ''} readonly>
+                  <b>Other / Custom:</b>
+                </label>
+                ${(st.currentQuestion.type === 'msq' ? Array.isArray(st.currentSelection) && st.currentSelection.includes('__OTHER__') : st.currentSelection === '__OTHER__') ? `
+                  <div style="margin:4px 0 14px 28px">
+                    <input id="q_custom_txt" placeholder="Specify custom option..." value="${esc(st.customText)}" oninput="S.onbState.customText=this.value">
+                  </div>
+                ` : ''}
+              ` : ''}
+            </div>
+
+            <div class="row sp" style="margin-top:24px">
+              <button class="btn s" onclick="A.onbGoBackOneQuestion()">← Back</button>
+              <button class="btn" style="background:${catAcc};border-color:transparent;color:#fff" onclick="A.onbSubmitAnswerAndContinue()" ${st.loading ? 'disabled' : ''}>
+                ${st.loading ? '<span class="spinner"></span> Processing...' : 'Continue →'}
+              </button>
+            </div>
+          </div>
+        ` : ''}
+
+        ${st.step === 'workspace' && st.workspaceConfig ? `
+          <div class="card" style="border-top:4px solid ${catAcc}">
+            <h2 style="margin:0 0 4px">Workspace Generated!</h2>
+            <p class="mu sm" style="margin:0 0 18px">Customized for <b>${esc(st.name)}</b> (${esc(st.category)})</p>
+
+            <h3 style="margin:16px 0 10px">Tailored Milestone Workflow:</h3>
+            <div style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:18px">
+              ${(st.workspaceConfig.milestoneTemplate || []).map((m, i) => `
+                <div style="padding:12px 16px;border-bottom:1px solid var(--bd);background:${i % 2 === 0 ? 'var(--card)' : 'var(--g)'}">
+                  <b>Phase ${i + 1}: ${esc(m.title)}</b>
+                  <p class="sm mu" style="margin:2px 0 0">${esc(m.description || '')}</p>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="grid g2" style="margin-bottom:18px">
+              <div class="f">
+                <label for="onb_wh">Working Hours</label>
+                <input id="onb_wh" value="Mon–Fri, 9:00–17:00">
+              </div>
+              <div class="f">
+                <label for="onb_cp">Concurrent Active Capacity</label>
+                <input id="onb_cp" type="number" min="1" value="${esc(st.workspaceConfig.initialCapacity || 5)}">
+              </div>
+            </div>
+
+            <div class="row sp" style="margin-top:20px">
+              <button class="btn s" onclick="S.onbState.step='profile';R()">Start Over</button>
+              <button class="btn" style="background:${catAcc};border-color:transparent;color:#fff" onclick="A.onbSaveAndLaunch()" ${st.loading ? 'disabled' : ''}>
+                ${st.loading ? '<span class="spinner"></span> Saving...' : 'Save & Open Workspace ✓'}
+              </button>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `);
+  },
+
+  // ---- DASHBOARD (Capacity Card Completely Removed, Simple Stats, Working Actions) ----
+  'owner/dashboard': () => {
+    const bizReqs = S.reqs.filter(r => S.biz ? r.businessId === S.biz.id : true);
+    const acceptedReqs = bizReqs.filter(r => r.status === 'Accepted');
+    const isProjComplete = r => {
+      const p = r.project;
+      if (!p) return false;
+      return p.status === 'Completed' || (p.progressPercentage !== null && p.progressPercentage !== undefined && p.progressPercentage >= 100);
+    };
+    const activeProjects = acceptedReqs.filter(r => !isProjComplete(r));
+    const act = activeProjects.length;
+    const allCompleted = acceptedReqs.length > 0 && act === 0;
+    const nw = bizReqs.filter(r => r.status === 'New').length;
+    const catBg = getCatBg(S.biz?.category);
+    const catAcc = getCatAccent(S.biz?.category);
+
+    const atRiskProjects = (S.recoveryAnalysis?.activeProjects || []).filter(p => (p.mlDelayProbability || 0) >= 0.4);
+    const atRiskCount = atRiskProjects.length;
+    const primaryRiskId = atRiskProjects[0]?.id || '';
+
+    const activeProjectChartData = activeProjects.map((r, i) => {
+      const p = r.project || {};
+      const pred = (S.recoveryAnalysis?.activeProjects || []).find(ap => ap.id === p.id);
+      const riskPct = pred ? pred.mlDelayPercentage : (p.progressPercentage < 50 ? 30 : 15);
+      const riskLevel = pred ? pred.mlRiskLevel : (riskPct >= 60 ? 'High' : riskPct >= 35 ? 'Medium' : 'Low');
+      return {
+        id: p.id || r.id,
+        title: r.requestTitle || p.title || `Project ${i + 1}`,
+        deadline: r.deadline || p.deadline || 'TBD',
+        progress: p.progressPercentage || 0,
+        riskPct: Math.round(riskPct),
+        riskLevel: riskLevel,
+        remDays: pred ? pred.mlEstimatedRemainingDays : 5,
+        factors: pred?.mlContributingFactors || ['Schedule monitored']
+      };
+    });
+
+    return owner('dashboard', `
+      <div class="row sp" style="margin-bottom:20px">
+        <div>
+          <h1 style="font-size:2rem;margin:0">${esc(S.biz?.name || 'Workspace Dashboard')}</h1>
+          <p class="mu" style="margin:4px 0 0">Operating dashboard for <b>${esc(S.biz?.category || 'your business')}</b>.</p>
+        </div>
+        <a class="btn" href="#/owner/onboarding">+ Register New Business</a>
+      </div>
+
+      <!-- 3 Key Metric Cards (Capacity Card Removed Completely) -->
+      <div class="grid g3" style="margin-bottom:22px">
+        <a class="card" href="#/owner/requests" style="border-top:4px solid var(--pri);text-decoration:none">
+          <div class="mu sm">Incoming Orders</div>
+          <div style="font-size:2.4rem;font-weight:800;color:var(--pri);margin:4px 0">${nw}</div>
+          <div class="sm mu">${nw > 0 ? `${nw} order${nw > 1 ? 's' : ''} waiting to be accepted` : 'No pending orders'}</div>
+        </a>
+
+        <a class="card" href="#/owner/projects" style="border-top:4px solid var(--ok);text-decoration:none">
+          <div class="mu sm">Active Projects</div>
+          <div style="font-size:${allCompleted ? '1.45rem' : '2.4rem'};font-weight:800;color:var(--ok);margin:4px 0;line-height:1.2">${allCompleted ? 'All Projects Completed' : act}</div>
+          <div class="sm mu">${allCompleted ? 'Nothing in Progress' : (act > 0 ? `${act} project${act > 1 ? 's' : ''} in progress` : 'No active projects')}</div>
+        </a>
+
+        <div class="card" style="border-top:4px solid ${atRiskCount > 0 ? '#D14343' : 'var(--ok)'};cursor:pointer" onclick="A.navigateToRecovery('${primaryRiskId}')">
+          <div class="mu sm">Risks Detected (Click to View)</div>
+          <div style="font-size:2.4rem;font-weight:800;color:${atRiskCount > 0 ? '#D14343' : 'var(--ok)'};margin:4px 0">${atRiskCount}</div>
+          <div class="sm mu">${atRiskCount > 0 ? `${atRiskCount} project${atRiskCount > 1 ? 's' : ''} need recovery attention` : '✓ All operations on schedule'}</div>
+        </div>
+      </div>
+
+      <!-- Simple ML Status Card (No technical clutter) -->
+      <div class="card" style="margin-bottom:22px;background:${catBg};border-color:${getCatBorder(S.biz?.category)}">
+        <div class="row sp" style="margin-bottom:10px">
+          <div>
+            <b style="font-size:1.05rem;color:${catAcc}">AI Operational Intelligence</b>
+            <p class="sm mu" style="margin:2px 0 0">Supervised machine learning continuously monitors project deadlines and supply chain availability.</p>
+          </div>
+          <span class="bd ai">ML Active</span>
+        </div>
+        ${atRiskProjects.length > 0 ? `
+          <div class="grid g2" style="margin-top:12px;gap:12px">
+            ${atRiskProjects.slice(0, 2).map(p => `
+              <div style="background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px">
+                <div class="row sp">
+                  <b>${esc(p.title || p.name || 'Active Project')}</b>
+                  <span class="bd er">${p.mlDelayPercentage}% Delay Risk</span>
+                </div>
+                <div class="sm mu" style="margin:6px 0">${(p.mlContributingFactors || ['Operations monitored'])[0]}</div>
+                <a class="btn s" style="font-size:.78rem;padding:.3em .8em;margin-top:4px" href="#/owner/recovery" onclick="S.selectedRiskId='${p.id}'">View Recovery Plan →</a>
+              </div>
+            `).join('')}
+          </div>
+        ` : `
+          <p class="sm mu" style="margin:8px 0 0">All active projects and supply inventories are operating within safe planned buffers.</p>
+        `}
+      </div>
+
+      <!-- Interactive Dashboard Analytics & Risk Visualization -->
+      <div class="card" style="margin-bottom:22px;padding:24px">
+        <div class="row sp" style="margin-bottom:18px">
+          <div>
+            <h3 style="margin:0;font-size:1.25rem">Operational Analytics & Risk Intelligence</h3>
+            <p class="sm mu" style="margin:4px 0 0">Interactive machine learning risk telemetry, active workload distribution, and category resource utilization.</p>
+          </div>
+          <span class="bd" style="background:var(--g);font-size:.78rem;font-weight:700">Telemetry &bull; ${esc(S.biz?.category || 'General')}</span>
+        </div>
+
+        <div class="grid g2" style="margin-bottom:20px;gap:18px">
+          <!-- 1. Project Risk Trend Line Chart -->
+          <div style="background:var(--g);border:1px solid var(--bd);border-radius:16px;padding:18px;display:flex;flex-direction:column">
+            <div class="row sp" style="margin-bottom:12px">
+              <div>
+                <b style="font-size:.95rem">Project Risk Trend</b>
+                <div class="sm mu">Delay probability progression across active projects</div>
+              </div>
+              <span class="bd ok" style="font-size:.72rem">Live ML Feed</span>
+            </div>
+            ${renderRiskTrendChart(activeProjectChartData, allCompleted)}
+          </div>
+
+          <!-- 2. Risk Distribution Doughnut Chart -->
+          <div style="background:var(--g);border:1px solid var(--bd);border-radius:16px;padding:18px;display:flex;flex-direction:column">
+            <div class="row sp" style="margin-bottom:12px">
+              <div>
+                <b style="font-size:.95rem">Active Risk Distribution</b>
+                <div class="sm mu">Severity breakdown of currently open commitments</div>
+              </div>
+              <span class="bd" style="background:var(--card);font-size:.72rem">${act} Active</span>
+            </div>
+            ${renderRiskDonutChart(activeProjectChartData, allCompleted)}
+          </div>
+        </div>
+
+        <!-- 3. Resource Utilization Bar Chart -->
+        <div style="background:var(--g);border:1px solid var(--bd);border-radius:16px;padding:18px">
+          <div class="row sp" style="margin-bottom:14px">
+            <div>
+              <b style="font-size:.95rem">Resource Utilization & Capacity Buffer</b>
+              <div class="sm mu">Physical inventory, tooling, and operational capacity buffer for ${esc(S.biz?.category || 'General')}</div>
+            </div>
+            <div class="row sm mu" style="gap:14px;font-size:.76rem">
+              <span class="row" style="gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--pri)"></span>Allocated</span>
+              <span class="row" style="gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--card);border:1px solid var(--bd)"></span>Total In Stock</span>
+            </div>
+          </div>
+          ${renderResourceBarChart(S.resourcesData, S.biz?.category)}
+        </div>
+      </div>
+
+      <!-- Recent Customer Orders with Direct Accept Option -->
+      <div class="grid g2">
+        <div class="card">
+          <div class="row sp" style="margin-bottom:14px">
+            <h3 style="margin:0">Recent Customer Orders</h3>
+            <a class="btn s" href="#/owner/requests" style="font-size:.82rem">All Orders</a>
+          </div>
+          ${bizReqs.length ? `<div>${bizReqs.slice(0, 4).map(r => `
+            <div class="row sp" style="padding:12px 0;border-bottom:1px solid var(--bd)">
+              <div style="flex:1;min-width:0;padding-right:10px">
+                <b style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(r.requestTitle)}</b>
+                <div class="sm mu">Due: <b>${esc(r.deadline)}</b> &middot; Total: <b>$${esc(r.budget)}</b></div>
+              </div>
+              <div class="row" style="gap:6px">
+                ${bdg(r.status)}
+                ${r.status === 'New' ? `
+                  <button class="btn ok-btn" style="padding:.28em .8em;font-size:.78rem" onclick="A.acceptRequest('${r.id}')">✓ Accept</button>
+                ` : ''}
+                <button class="btn s" style="padding:.28em .8em;font-size:.78rem" onclick="A.viewRequest('${r.id}')">Review</button>
+              </div>
+            </div>
+          `).join('')}</div>` : `<p class="sm mu">No incoming orders yet. Place a test order from the <a href="#/marketplace" onclick="A.switchPortal('customer')">Customer Marketplace</a>.</p>`}
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 14px">Quick Management Actions</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <a class="btn s" href="#/owner/projects">Projects & Milestone Tracking</a>
+            <a class="btn s" href="#/owner/resources">Material & Staff Resources</a>
+            <a class="btn s" href="#/owner/recovery">Adaptive Recovery Centre</a>
+            <a class="btn s" href="#/owner/settings">Business Settings & Capacities</a>
+          </div>
+        </div>
+      </div>
+    `);
+  },
+
+  // ---- REQUESTS ----
+  'owner/requests': () => {
+    const bizReqs = S.reqs.filter(r => S.biz ? r.businessId === S.biz.id : true);
+    return owner('requests', `
+      <div class="row sp" style="margin-bottom:20px">
+        <div>
+          <h1 style="font-size:2rem;margin:0">Incoming Customer Requests</h1>
+          <p class="mu" style="margin:4px 0 0">Orders submitted by clients for <b>${esc(S.biz?.name || 'your workspace')}</b>.</p>
+        </div>
+        <a class="btn portal-switch" href="#/marketplace" onclick="A.switchPortal('customer')">+ Place Order as Customer ⇄</a>
+      </div>
+
+      ${bizReqs.length ? `<div class="grid">${bizReqs.map(r => `
+        <div class="card row sp" style="border-left:5px solid ${r.status === 'New' ? 'var(--pri)' : 'var(--ok)'}">
+          <div style="flex:1;min-width:0;padding-right:16px">
+            <h3 style="margin:0">${esc(r.requestTitle)}</h3>
+            <p class="sm mu" style="margin:4px 0">Client: <b>${esc(r.customer_name || 'Customer')}</b> &middot; Total: <b>$${esc(r.budget)}</b> &middot; Due: <b>${esc(r.deadline)}</b> &middot; Qty: <b>${esc(r.quantity)}</b></p>
+            <p class="sm" style="margin:6px 0 0;max-width:600px">${esc(r.description)}</p>
+          </div>
+          <div class="row" style="gap:8px">
+            ${bdg(r.status)}
+            ${r.status === 'New' ? `
+              <button class="btn ok-btn" onclick="A.acceptRequest('${r.id}')">✓ Accept & Start Project</button>
+            ` : ''}
+            <button class="btn s" onclick="A.viewRequest('${r.id}')">Review</button>
+            <button class="btn s d" onclick="A.deleteRequest('${r.id}')" title="Delete">Delete</button>
+          </div>
+        </div>
+      `).join('')}</div>` : `<div class="emp">
+        <div class="ic">${SVG.requests}</div>
+        <h3>No requests yet</h3>
+        <p class="mu">Switch to the Customer Marketplace to place an order to <b>${esc(S.biz?.name || 'your business')}</b>.</p>
+        <a class="btn portal-switch" href="#/marketplace" onclick="A.switchPortal('customer')">Open Customer Marketplace ⇄</a>
+      </div>`}
+    `);
+  },
+
+  // ---- PROJECTS & MILESTONE TRACKING ----
+  'owner/projects': () => {
+    const bizReqs = S.reqs.filter(r => S.biz ? r.businessId === S.biz.id : true);
+    const newCount = bizReqs.filter(r => r.status === 'New').length;
+    const accepted = bizReqs.filter(r => r.status === 'Accepted' && r.project);
+    const analysisProjects = S.recoveryAnalysis?.activeProjects || [];
+
+    return owner('projects', `
+      <div class="row sp" style="margin-bottom:16px">
+        <div>
+          <h1 style="font-size:2rem;margin:0">Active Projects & Milestones</h1>
+          <p class="mu" style="margin:4px 0 0">Interactive milestones update progress and trigger live supervised ML predictions.</p>
+        </div>
+        <button class="btn s" onclick="A.loadRequests().then(()=>R())">Refresh</button>
+      </div>
+
+      ${newCount > 0 ? `
+        <div class="card" style="background:var(--print-bg);border-color:var(--print-bd);margin-bottom:20px;padding:16px 20px">
+          <div class="row sp">
+            <div>
+              <b style="color:var(--print-tx)">You have ${newCount} new incoming customer order${newCount > 1 ? 's' : ''} waiting to be accepted.</b>
+              <p class="sm" style="color:var(--print-tx);margin:2px 0 0">Accepting an order automatically creates its project and generates category milestones.</p>
+            </div>
+            <a class="btn" style="background:var(--print-acc);border-color:transparent;color:#fff" href="#/owner/requests">Review & Accept Orders →</a>
+          </div>
+        </div>
+      ` : ''}
+
+      ${accepted.length ? `<div class="grid">${accepted.map(r => {
+        const p = r.project;
+        const totalMs = (p.milestones || []).length || 5;
+        const doneMs = (p.milestones || []).filter(m => m.done).length;
+        const remMs = totalMs - doneMs;
+        const isCompleted = p.progressPercentage >= 100 || p.status === 'Completed';
+
+        const pred = isCompleted ? null : analysisProjects.find(ap => ap.id === p.id);
+        const mlProb = isCompleted ? 0 : (pred ? pred.mlDelayPercentage : (remMs > 2 ? 65 : 15));
+        const rl = isCompleted ? 'None' : (pred ? pred.mlRiskLevel : (mlProb >= 70 ? 'High' : mlProb >= 35 ? 'Medium' : 'Low'));
+        const estRemaining = isCompleted ? 0 : (pred ? pred.mlEstimatedRemainingDays : Math.max(1, Math.round(remMs * 1.5)));
+        const expDate = isCompleted ? 'Completed' : (pred ? pred.mlExpectedCompletionDate : r.deadline);
+        const delayDays = isCompleted ? 0 : (pred ? pred.mlExpectedDelayDays : 0);
+        const factors = isCompleted ? ['Project completed successfully.'] : (pred?.mlContributingFactors || ['Operations progressing within planned buffer thresholds.']);
+
+        const rc = isCompleted ? 'ok' : riskClass(rl);
+        const cardBorderColor = isCompleted ? 'var(--ok)' : (mlProb >= 60 ? '#D14343' : mlProb >= 35 ? '#C27803' : 'var(--ok)');
+
+        return `
+          <div class="card" style="margin-bottom:20px;border-top:4px solid ${cardBorderColor}">
+            <div class="row sp" style="margin-bottom:8px">
+              <div>
+                <h3 style="margin:0">${esc(r.requestTitle)}</h3>
+                <p class="sm mu" style="margin:3px 0 0">Client: <b>${esc(r.customer_name || 'Client')}</b> &middot; Due: <b>${esc(r.deadline)}</b> &middot; Budget: <b>$${esc(r.budget)}</b></p>
+              </div>
+              <div class="row" style="gap:8px">
+                ${isCompleted
+                  ? `<span class="bd ok" style="background:rgba(14,159,110,.1);font-weight:700">✓ Completed Successfully</span>`
+                  : `<span class="bd ${rc}">${mlProb}% Delay Risk (${riskLabel(mlProb)})</span>`
+                }
+                <span class="bd ok">${p.progressPercentage}% Done</span>
+                <button class="btn s d" style="font-size:.78rem;padding:.3em .6em" onclick="A.deleteProject('${p.id}')" title="Delete Project">Delete</button>
+              </div>
+            </div>
+
+            <div class="pg" style="margin:12px 0 16px"><b style="width:${p.progressPercentage}%"></b></div>
+
+            ${isCompleted ? `
+              <!-- Completed Project Summary -->
+              <div class="grid g2" style="background:rgba(14,159,110,.06);border:1.5px solid rgba(14,159,110,.2);border-radius:14px;padding:16px;margin-bottom:18px">
+                <div>
+                  <span class="sm mu" style="font-weight:700">Project Status</span>
+                  <div style="font-size:1.5rem;font-weight:800;color:var(--ok)">✓ Completed</div>
+                  <p class="sm mu" style="margin:4px 0 0">All milestones delivered successfully.</p>
+                </div>
+                <div>
+                  <span class="sm mu" style="font-weight:700">Completion Date</span>
+                  <div style="font-size:1.2rem;font-weight:800;color:var(--ok)">${r.deadline}</div>
+                  <div class="sm mu">No active delay risk — project closed.</div>
+                </div>
+              </div>
+            ` : `
+              <!-- Simplified ML Prediction Box -->
+              <div class="grid g2" style="background:var(--g);border-radius:14px;padding:16px;margin-bottom:18px">
+                <div>
+                  <span class="sm mu" style="font-weight:700">Project Delay Risk</span>
+                  <div style="font-size:1.8rem;font-weight:800;color:${mlProb >= 60 ? '#D14343' : mlProb >= 35 ? '#C27803' : 'var(--ok)'}">${mlProb}%</div>
+                  <p class="sm mu" style="margin:4px 0 0">${factors[0]}</p>
+                </div>
+                <div>
+                  <span class="sm mu" style="font-weight:700">Estimated Time Remaining</span>
+                  <div style="font-size:1.8rem;font-weight:800;color:var(--pri)">${estRemaining} <span style="font-size:1rem;font-weight:500">days</span></div>
+                  <div class="sm mu">Expected Finish: <b>${expDate}</b> ${delayDays > 0 ? `<span style="color:#D14343">(+${delayDays}d overrun)</span>` : '<span>(On Schedule)</span>'}</div>
+                </div>
+              </div>
+            `}
+
+            <h4 style="margin:0 0 10px">Milestones — Check box to update actual progress:</h4>
+            <div>${(p.milestones || []).map(m => `
+              <label class="ms ${m.done ? 'd' : ''}" style="cursor:pointer">
+                <input type="checkbox" ${m.done ? 'checked' : ''} onchange="A.toggleMilestone('${m.id}', event)" style="margin-top:3px;flex-shrink:0">
+                <div style="min-width:0">
+                  <b class="ms-title" style="font-size:.93rem;display:block">${esc(m.title)}</b>
+                  ${m.description ? `<span class="mu sm" style="white-space:normal">${esc(m.description)}</span>` : ''}
+                </div>
+                <span class="bd ${m.done ? 'ok' : 'n'}" style="white-space:nowrap;flex-shrink:0">${m.done ? 'Done' : 'Pending'}</span>
+              </label>
+            `).join('')}</div>
+          </div>
+        `;
+      }).join('')}</div>` : `<div class="emp">
+        <div class="ic">${SVG.projects}</div>
+        <h3>No active projects</h3>
+        <p class="mu">Go to your Requests section and accept an incoming order to generate project milestones.</p>
+        <a class="btn" href="#/owner/requests">View Incoming Requests →</a>
+      </div>`}
+    `);
+  },
+
+  // ---- WORKLOAD ----
+  'owner/workload': () => {
+    const D = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const active = S.reqs.filter(r => (S.biz ? r.businessId === S.biz.id : true) && r.status === 'Accepted');
+    const cap = S.biz?.capacity || 5;
+    const overloaded = active.length > cap;
+    // Build ML risk lookup from recoveryAnalysis
+    const analysisProjects = S.recoveryAnalysis?.activeProjects || [];
+    function getProjectRiskLevel(r) {
+      if (!r.project) return 'Low';
+      if ((r.project.progressPercentage || 0) >= 100 || r.project.status === 'Completed') return 'Completed';
+      const pred = analysisProjects.find(ap => ap.id === r.project?.id);
+      if (!pred) return 'Low';
+      return pred.mlRiskLevel || 'Low';
+    }
+    function wkChipStyle(rl) {
+      if (rl === 'Completed') return 'background:rgba(14,159,110,.12);border:1px solid rgba(14,159,110,.3);color:var(--ok)';
+      if (rl === 'Critical' || rl === 'High') return 'background:rgba(209,67,67,.12);border:1px solid rgba(209,67,67,.35);color:#D14343';
+      if (rl === 'Medium') return 'background:rgba(194,120,3,.10);border:1px solid rgba(194,120,3,.35);color:#C27803';
+      return 'background:var(--g);border:1px solid var(--bd);color:var(--tx)';
+    }
+
+    return owner('workload', `
+      <div class="row sp" style="margin-bottom:8px">
+        <h1 style="font-size:2rem;margin:0">Weekly Workload Schedule</h1>
+        <span class="bd ${overloaded ? 'er' : 'ok'}">${active.length}/${cap} Active Slots</span>
+      </div>
+      <p class="mu" style="margin-bottom:8px">Active projects plotted across delivery deadlines. <span style="color:#D14343;font-weight:600">Red chips</span> = ML-detected delay risk.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+        <span style="display:flex;align-items:center;gap:5px;font-size:.82rem"><span style="width:12px;height:12px;border-radius:50%;background:rgba(209,67,67,.5);display:inline-block"></span>High/Critical Risk</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:.82rem"><span style="width:12px;height:12px;border-radius:50%;background:rgba(194,120,3,.5);display:inline-block"></span>Medium Risk</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:.82rem"><span style="width:12px;height:12px;border-radius:50%;background:rgba(14,159,110,.5);display:inline-block"></span>On Track / Completed</span>
+      </div>
+      <div class="wk">
+        ${D.map((d, i) => `<div>
+          <b>${d}</b>
+          ${active.filter(r => r.deadline && (new Date(r.deadline + 'T00:00').getDay() + 6) % 7 === i).map(r => {
+            const rl = getProjectRiskLevel(r);
+            return `<p style="margin:6px 0 0"><a href="#/owner/projects" style="font-size:.75rem;display:block;padding:4px 7px;border-radius:8px;text-decoration:none;font-weight:600;${wkChipStyle(rl)}">${esc(r.requestTitle.slice(0, 18))}</a></p>`;
+          }).join('')}
+        </div>`).join('')}
+      </div>
+    `);
+  },
+
+  // ---- RESOURCES (Card Grid, 12 Items, Clean SVG Icons, Reordering with PayPal) ----
+  'owner/resources': () => {
+    if (!S.biz) return owner('resources', '<p class="mu">Select a business workspace first.</p>');
+    const rid = S.biz.id;
+
+    setTimeout(async () => {
+      const el = document.getElementById('resources-body');
+      if (!el) return;
+      try {
+        const res = await apiFetch(`/api/requests/resources?businessId=${encodeURIComponent(rid)}`);
+        const data = await res.json();
+        const shortages = data.shortages || [];
+        const resources = data.resources || [];
+
+        el.innerHTML = `
+          <div class="grid g3" style="margin-bottom:20px">
+            <div class="card" style="text-align:center"><div class="mu sm">Total Resources</div><div style="font-size:2rem;font-weight:800;color:var(--pri);margin:4px 0">${resources.length}</div></div>
+            <div class="card" style="text-align:center"><div class="mu sm">Shortages</div><div style="font-size:2rem;font-weight:800;color:${shortages.length ? '#D14343' : 'var(--ok)'};margin:4px 0">${shortages.length}</div></div>
+            <div class="card" style="text-align:center"><div class="mu sm">Inventory Health</div><div style="font-size:1.15rem;font-weight:700;color:${shortages.length ? '#D14343' : 'var(--ok)'};margin:8px 0">${shortages.length ? 'Stock Deficit Detected' : 'All Resources Sufficient'}</div></div>
+          </div>
+
+          ${shortages.length ? `
+            <div class="card" style="border-left:5px solid #D14343;background:rgba(209,67,67,.04);margin-bottom:24px">
+              <div class="row sp">
+                <div>
+                  <b style="color:#D14343">${shortages.length} Material Shortage${shortages.length > 1 ? 's' : ''} Identified</b>
+                  <p class="sm" style="margin:4px 0 0">${shortages.map(s => `<b>${esc(s.name)}</b>: Missing ${s.deficit} ${esc(s.unit)} (${s.leadTimeDays}d lead time)`).join(' &middot; ')}</p>
+                </div>
+                <a class="btn s" href="#/owner/recovery" style="border-color:#D14343;color:#D14343">Open Recovery Plan →</a>
+              </div>
+            </div>
+          ` : ''}
+
+          <h3 style="margin:0 0 14px">Tracked Inventory & Capacities</h3>
+          <div class="grid g3">
+            ${resources.map(r => {
+              const isShortage = r.available_quantity < r.required_quantity;
+              const pct = r.required_quantity > 0 ? Math.min(100, Math.round((r.available_quantity / r.required_quantity) * 100)) : 100;
+              const typeIcon = r.type === 'equipment' ? SVG.gear : r.type === 'staff' ? SVG.user : r.type === 'service' ? SVG.cloud : SVG.box;
+
+              return `
+                <div class="res-card ${isShortage ? 'shortage' : ''}">
+                  <div class="row sp" style="margin-bottom:8px">
+                    <span style="color:var(--pri)">${typeIcon}</span>
+                    <span class="bd ${isShortage ? 'er' : 'ok'}" style="font-size:.72rem">${isShortage ? 'Shortage' : 'Available'}</span>
+                  </div>
+                  <b style="font-size:1rem;display:block;margin-bottom:2px">${esc(r.name)}</b>
+                  <span class="sm mu">${esc(r.type)} &middot; $${r.cost_per_unit || 0}/${esc(r.unit)}</span>
+                  
+                  <div class="pg" style="margin:12px 0 10px"><b style="width:${pct}%;background:${isShortage ? '#D14343' : 'var(--ok)'}"></b></div>
+                  
+                  <div class="sm mu" style="margin-bottom:14px">
+                    <div class="row sp"><span>Available:</span><b>${r.available_quantity} ${esc(r.unit)}</b></div>
+                    <div class="row sp" style="margin-top:2px"><span>Required:</span><b>${r.required_quantity} ${esc(r.unit)}</b></div>
+                    <div class="row sp" style="margin-top:2px"><span>Supplier Lead:</span><b>${r.supplier_lead_time_days || 0} days</b></div>
+                  </div>
+
+                  <div class="row" style="gap:6px">
+                    <button class="btn s" style="flex:1;font-size:.78rem;padding:.35em .6em" onclick="
+                      const n = prompt('Enter new available quantity for ${esc(r.name)}:','${r.available_quantity}');
+                      if (n !== null) A.updateResourceStock('${r.id}', n);
+                    ">Update Stock</button>
+                    ${isShortage ? `
+                      <button class="btn paypal" style="font-size:.78rem;padding:.35em .7em" onclick="A.openReorderModal('${r.id}','${esc(r.name)}',${r.cost_per_unit || 10},'${esc(r.unit)}',${r.supplier_lead_time_days || 3})">
+                        Reorder
+                      </button>
+                    ` : ''}
+                    <button class="btn s d" style="font-size:.78rem;padding:.35em .6em" onclick="A.deleteResource('${r.id}')">Del</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } catch(e) {
+        el.innerHTML = `<p style="color:var(--er)">Error loading resources: ${esc(e.message)}</p>`;
+      }
+    }, 50);
+
+    return owner('resources', `
+      <div class="row sp" style="margin-bottom:16px">
+        <div>
+          <h1 style="font-size:2rem;margin:0">Resource Intelligence</h1>
+          <p class="mu" style="margin:4px 0 0">Raw materials, production equipment, and staff capacity for <b>${esc(S.biz.name)}</b>.</p>
+        </div>
+        <button class="btn s" onclick="R()">Refresh</button>
+      </div>
+      <div id="resources-body"><div class="emp"><div class="ld" style="margin:0 auto 14px"></div><p class="mu">Loading inventory...</p></div></div>
+    `);
+  },
+
+  // ---- RECOVERY CENTRE (Combined Risk View, 5-Stage Flowchart, Strategy Options, Direct Project Navigation) ----
+  'owner/recovery': () => {
+    if (!S.biz) return owner('recovery', '<p class="mu">Select a business workspace first.</p>');
+    const rid = S.biz.id;
+    const preSelectedRiskId = S.selectedRiskId;
+    S.selectedRiskId = null;
+
+    setTimeout(async () => {
+      const el = document.getElementById('recovery-body');
+      if (!el) return;
+      try {
+        const res = await apiFetch(`/api/requests/recovery/analysis?businessId=${encodeURIComponent(rid)}`);
+        const data = await res.json();
+        const plans = data.recoveryPlans || [];
+        const shortages = data.resourceIntelligence?.shortages || [];
+        const activeProjects = data.activeProjects || [];
+        const delayedProjects = activeProjects.filter(p => (p.mlDelayPercentage || 0) >= 40);
+
+        el.innerHTML = `
+          <!-- Top Metric Cards -->
+          <div class="grid g4" style="margin-bottom:20px">
+            <div class="card" style="text-align:center"><div class="mu sm">Total Active Risks</div><div style="font-size:2rem;font-weight:800;color:${data.riskCount > 0 ? '#D14343' : 'var(--ok)'};margin:4px 0">${data.riskCount}</div></div>
+            <div class="card" style="text-align:center"><div class="mu sm">Critical Risks</div><div style="font-size:2rem;font-weight:800;color:${plans.filter(p => p.severity==='Critical').length > 0 ? '#D14343' : 'var(--ok)'};margin:4px 0">${plans.filter(p => p.severity==='Critical').length}</div></div>
+            <div class="card" style="text-align:center"><div class="mu sm">Resource Shortages</div><div style="font-size:2rem;font-weight:800;color:${shortages.length > 0 ? '#D14343' : 'var(--ok)'};margin:4px 0">${shortages.length}</div></div>
+            <div class="card" style="text-align:center"><div class="mu sm">Delayed Projects</div><div style="font-size:2rem;font-weight:800;color:${delayedProjects.length > 0 ? '#C27803' : 'var(--ok)'};margin:4px 0">${delayedProjects.length}</div></div>
+          </div>
+
+          <!-- Status Line -->
+          <div style="background:var(--g);border-radius:12px;padding:12px 16px;margin-bottom:22px;display:flex;align-items:center;gap:10px">
+            <span style="color:var(--pri)">${SVG.clock}</span>
+            <span class="sm mu"><b>Status:</b> Checking project risks and preparing recovery plans.</span>
+          </div>
+
+          <!-- Combined Risk Overview (Compact List) -->
+          ${plans.length > 0 ? `
+            <div class="card" style="margin-bottom:24px">
+              <h3 style="margin:0 0 12px">Detected Operational Risks (${plans.length})</h3>
+              <div>${plans.map(p => `
+                <div class="row sp" style="padding:12px 0;border-bottom:1px solid var(--bd);cursor:pointer" onclick="document.getElementById('plan-${p.id}')?.scrollIntoView({behavior:'smooth'})">
+                  <div>
+                    <div class="row" style="gap:8px">
+                      <span class="bd ${p.severity==='Critical'?'er':'wa'}">${p.severity}</span>
+                      <b>${esc(p.title)}</b>
+                    </div>
+                    <div class="sm mu" style="margin-top:3px">Affecting: <b>${esc(p.affectedEntity)}</b> &middot; Root Cause: ${esc(p.rootCause)}</div>
+                  </div>
+                  <button class="btn s" style="font-size:.78rem;padding:.3em .8em">View Plan →</button>
+                </div>
+              `).join('')}</div>
+            </div>
+
+            <!-- Detailed Recovery Plans & Flowchart -->
+            ${plans.map((plan, planIdx) => `
+              <div id="plan-${plan.id}" class="card" style="margin-bottom:24px;border-left:5px solid ${plan.severity==='Critical' ? '#D14343' : '#C27803'}">
+                <div class="row sp" style="margin-bottom:12px">
+                  <div>
+                    <span class="bd ${plan.severity==='Critical'?'er':'wa'}">${plan.severity}</span>
+                    <h3 style="margin:8px 0 2px">${esc(plan.title)}</h3>
+                    <p class="sm mu" style="margin:0">Affecting: <b>${esc(plan.affectedEntity)}</b></p>
+                  </div>
+                  <span class="bd ${plan.status==='approved'?'ok':'n'}">${plan.status.toUpperCase()}</span>
+                </div>
+
+                <!-- 5-Stage Pastel Flowchart -->
+                <div style="background:var(--g);border:1px solid var(--bd);border-radius:16px;padding:16px;margin:14px 0 18px">
+                  <div style="font-size:.75rem;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">5-Stage Recovery Decision Flow</div>
+                  <div style="display:flex;gap:8px;align-items:center;overflow-x:auto">
+                    <div class="flow-step" style="border:2px solid #D14343;background:rgba(209,67,67,.06)">
+                      <span style="font-size:.65rem;font-weight:800;color:#D14343;text-transform:uppercase;display:block">1. Delay</span>
+                      <b style="font-size:.82rem">${esc((plan.flowchart?.step1_risk||'Delay Detected').split(' ').slice(0,3).join(' '))}</b>
+                    </div>
+                    <div class="flow-arr">→</div>
+                    <div class="flow-step" style="border:2px solid #C27803;background:rgba(194,120,3,.06)">
+                      <span style="font-size:.65rem;font-weight:800;color:#C27803;text-transform:uppercase;display:block">2. Cause</span>
+                      <b style="font-size:.82rem">${esc((plan.flowchart?.step2_cause||'Stock Deficit').split(' ').slice(0,3).join(' '))}</b>
+                    </div>
+                    <div class="flow-arr">→</div>
+                    <div class="flow-step" style="border:2px solid var(--pri);background:rgba(0,112,224,.06)">
+                      <span style="font-size:.65rem;font-weight:800;color:var(--pri);text-transform:uppercase;display:block">3. Action</span>
+                      <b style="font-size:.82rem;color:var(--pri)">${esc((plan.flowchart?.step3_recommendation||'Reorder Stock').split(' ').slice(0,3).join(' '))}</b>
+                    </div>
+                    <div class="flow-arr">→</div>
+                    <div class="flow-step" style="border:2px solid var(--ok);background:rgba(14,159,110,.06)">
+                      <span style="font-size:.65rem;font-weight:800;color:var(--ok);text-transform:uppercase;display:block">4. Result</span>
+                      <b style="font-size:.82rem;color:var(--ok)">${esc((plan.flowchart?.step4_impact||'Recovers Schedule').split(' ').slice(0,3).join(' '))}</b>
+                    </div>
+                    <div class="flow-arr">→</div>
+                    <div class="flow-step" style="border:2px solid var(--bd)">
+                      <span style="font-size:.65rem;font-weight:800;color:var(--mu);text-transform:uppercase;display:block">5. Decision</span>
+                      <b style="font-size:.82rem">Owner Approval</b>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sm" style="margin-bottom:6px"><b>Why it happened:</b> ${esc(plan.rootCause)}</div>
+                <div class="sm mu" style="margin-bottom:16px"><b>Operational Impact:</b> ${esc(plan.impact)}</div>
+
+                <!-- Recovery Strategies with checkboxes for batch selection -->
+                <h4 style="margin:0 0 10px">Select Recovery Strategy (check to include in batch):</h4>
+                <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px">
+                  ${(plan.options || []).map((opt, oi) => {
+                    const actionPayload = encodeURIComponent(JSON.stringify({
+                      action: opt.action,
+                      projectId: opt.projectId || '',
+                      milestoneId: opt.milestoneId || '',
+                      resourceId: opt.resourceId || ''
+                    }));
+                    return `
+                    <div style="border:1.5px solid var(--bd);border-radius:14px;padding:16px;background:var(--card)">
+                      <div class="row" style="gap:12px;align-items:flex-start">
+                        <input type="checkbox" class="recovery-action-cb" data-action="${actionPayload}" style="margin-top:4px;width:16px;height:16px;flex-shrink:0;cursor:pointer">
+                        <div style="flex:1">
+                          <div class="row" style="gap:8px;margin-bottom:4px">
+                            <span class="bd" style="background:var(--g)">Option ${oi + 1} &middot; ${esc(opt.strategy)}</span>
+                            <b>${esc(opt.label)}</b>
+                          </div>
+                          <p class="sm mu" style="margin:0 0 8px">${esc(opt.detail)}</p>
+                          <div class="row sm mu" style="gap:14px">
+                            ${opt.timeSavedDays ? `<span>Time Saved: <b>+${opt.timeSavedDays} days</b></span>` : ''}
+                            ${opt.estimatedCost ? `<span>Additional Cost: <b>${esc(opt.estimatedCost)}</b></span>` : ''}
+                            ${opt.tradeOffs ? `<span>Trade-off: <em>${esc(opt.tradeOffs)}</em></span>` : ''}
+                          </div>
+                        </div>
+                        <button class="btn ok-btn" style="flex-shrink:0" onclick="A.approveRecoveryPlan('${rid}','${opt.action}','${opt.projectId||''}','${opt.milestoneId||''}','${opt.resourceId||''}')">
+                          ✓ Apply Now
+                        </button>
+                      </div>
+                    </div>`;
+                  }).join('')}
+                </div>
+
+                <div class="row" style="justify-content:flex-end">
+                  <button class="btn s d" style="font-size:.82rem" onclick="A.rejectRecoveryPlan('${rid}','${plan.id}')">✕ Reject Plan</button>
+                </div>
+              </div>
+            `).join('')}
+
+            <!-- Batch Apply Button (shown when multiple plans are displayed) -->
+            ${plans.length > 1 ? `
+              <div style="background:var(--g);border:1.5px solid var(--bd);border-radius:16px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px">
+                <div>
+                  <b>Batch Recovery Execution</b>
+                  <p class="sm mu" style="margin:3px 0 0">Check multiple strategy options above, then click to apply all selected actions in one operation.</p>
+                </div>
+                <button id="batch-recovery-btn" class="btn" style="background:var(--pri);border-color:transparent;color:#fff;padding:.8em 1.6em;font-size:.95rem" onclick="A.applySelectedRecoveryActions('${rid}')">
+                  ⚡ Apply Selected Actions
+                </button>
+              </div>
+            ` : ''}
+          ` : `<div class="emp">
+            <div class="ic" style="color:var(--ok)">${SVG.check}</div>
+            <h3>No active operational risks</h3>
+            <p class="mu">Your business workspace is operating safely within planned capacity and material inventory buffers.</p>
+          </div>`}
+        `;
+
+        if (preSelectedRiskId) {
+          setTimeout(() => {
+            document.getElementById(`plan-${preSelectedRiskId}`)?.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      } catch(e) {
+        el.innerHTML = `<p style="color:var(--er)">Error analyzing recovery risks: ${esc(e.message)}</p>`;
+      }
+    }, 50);
+
+    return owner('recovery', `
+      <div class="row sp" style="margin-bottom:16px">
+        <div>
+          <h1 style="font-size:2rem;margin:0">Adaptive Recovery Centre</h1>
+          <p class="mu" style="margin:4px 0 0">Real-time risk assessment, automated recovery pathways, and owner execution decisions.</p>
+        </div>
+        <button class="btn s" onclick="R()">Refresh</button>
+      </div>
+      <div id="recovery-body"><div class="emp"><div class="ld" style="margin:0 auto 14px"></div><p class="mu">Analyzing risks...</p></div></div>
+    `);
+  },
+
+  // ---- FINANCE & PAYPAL ----
+  'owner/finance': () => owner('finance', `
+    <div class="row sp" style="margin-bottom:20px">
+      <div>
+        <h1 style="font-size:2rem;margin:0">Finance & PayPal Sandbox</h1>
+        <p class="mu" style="margin:4px 0 0">Verified server-side checkout integration with PayPal REST APIs.</p>
+      </div>
+      <span class="bd ok">${SVG.paypal} Sandbox Active</span>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>PayPal Merchant Configuration</h3>
+        <p class="sm mu">Server-side payment processing operates in Sandbox mode. Customer order payments and supplier reorder payments execute with instant verification.</p>
+        <div style="background:var(--g);border-radius:14px;padding:16px;margin:16px 0;font-size:.88rem">
+          <div class="row sp"><span class="mu">Environment:</span><b>PayPal Developer Sandbox</b></div>
+          <div class="row sp" style="margin-top:6px"><span class="mu">Mode:</span><b>REST API v2 Orders</b></div>
+          <div class="row sp" style="margin-top:6px"><span class="mu">Currency:</span><b>USD ($)</b></div>
+        </div>
+        <button class="btn paypal" onclick="alert('PayPal Sandbox active: Connects to official developer sandbox endpoints for verified checkout.')">
+          ${SVG.paypal} Test PayPal Sandbox Connectivity
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>Transaction Workflow</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+          ${[
+            'Customer orders catalog item with auto-calculated pricing',
+            'Order captured via PayPal Sandbox REST API',
+            'Owner reviews and accepts order in Business Portal',
+            'Tailored milestones created and tracked in Active Projects',
+            'Supplier restocks ordered with PayPal checkout upon shortage'
+          ].map((text, idx) => `
+            <div class="row" style="gap:10px">
+              <span class="bd" style="width:24px;height:24px;border-radius:50%;display:grid;place-items:center;padding:0">${idx + 1}</span>
+              <span class="sm">${text}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `),
+
+  // ---- SETTINGS & WORKSPACES ----
+  'owner/settings': () => {
+    const biz = S.biz;
+    const isPublished = Boolean(biz?.published);
+    return owner('settings', `
+      <h1 style="font-size:2rem;margin-bottom:6px">Settings & Workspaces</h1>
+      <p class="mu" style="margin-bottom:22px">Manage profile, concurrent capacities, multiple businesses and data state.</p>
+
+      ${biz ? `
+      <div class="card" style="margin-bottom:20px;border-top:4px solid ${getCatAccent(biz.category)}">
+        <div class="row sp" style="margin-bottom:16px">
+          <div>
+            <h3 style="margin:0">${esc(biz.name)}</h3>
+            <p class="mu sm" style="margin:4px 0 0">${esc(biz.category)}</p>
+          </div>
+          ${isPublished ? '<span class="bd ok">Listed in Marketplace</span>' : '<span class="bd">Draft</span>'}
+        </div>
+
+        <div style="background:var(--g);border-radius:14px;padding:16px;margin-bottom:16px">
+          <b style="display:block;margin-bottom:4px">Marketplace Visibility</b>
+          <p class="sm mu" style="margin:0 0 12px">${isPublished ? 'Your business is visible to customers in the marketplace.' : 'Your business is currently hidden.'}</p>
+          <button class="btn ${isPublished ? 'd' : 'ok-btn'}" onclick="A.publishBusiness('${esc(biz.id)}', ${!isPublished})">
+            ${isPublished ? 'Unlist from Marketplace' : 'Publish to Marketplace'}
+          </button>
+        </div>
+
+        <div style="background:var(--g);border-radius:14px;padding:16px;margin-bottom:16px">
+          <b style="display:block;margin-bottom:4px">Concurrent Active Capacity</b>
+          <p class="sm mu" style="margin:0 0 12px">Max active customer projects before overload alerts trigger.</p>
+          <div class="row" style="gap:10px">
+            <input id="cap-input" type="number" min="1" max="50" value="${esc(biz.capacity || 5)}" style="width:80px">
+            <button class="btn s" onclick="A.updateCapacity('${esc(biz.id)}', document.getElementById('cap-input').value)">Save Capacity</button>
+          </div>
+        </div>
+
+        <div class="row sp" style="padding-top:16px;border-top:1px solid var(--bd)">
+          <button class="btn s d" onclick="A.deleteBusiness('${esc(biz.id)}')">Delete This Business</button>
+          <a class="btn s" href="#/owner/onboarding">+ Register Another Business</a>
+        </div>
+      </div>
+      ` : '<div class="emp"><h3>No business workspace</h3><a class="btn" href="#/owner/onboarding">Register Business →</a></div>'}
+
+      <!-- Multiple Workspaces Switcher -->
+      ${S.allBizList.length > 1 ? `
+        <div class="card" style="margin-bottom:20px">
+          <h3 style="margin:0 0 14px">Registered Workspaces (${S.allBizList.length})</h3>
+          ${S.allBizList.map(ob => `
+            <div class="row sp" style="padding:10px 0;border-bottom:1px solid var(--bd)">
+              <div>
+                <b>${esc(ob.name)}</b>
+                <span class="sm mu" style="margin-left:8px">${esc(ob.category)}</span>
+                ${ob.id === biz?.id ? '<span class="bd ok" style="margin-left:6px">Active</span>' : ''}
+              </div>
+              <div class="row" style="gap:8px">
+                ${ob.id !== biz?.id ? `<button class="btn s" style="font-size:.82rem" onclick="A.switchBusiness('${ob.id}')">Switch</button>` : ''}
+                <button class="btn s d" style="font-size:.82rem" onclick="A.deleteBusiness('${ob.id}')">Delete</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <!-- Reset Data -->
+      <div class="card" style="border-color:#D14343;background:rgba(209,67,67,.03)">
+        <h3 style="color:#D14343;margin:0 0 6px">Reset All Application Data</h3>
+        <p class="sm mu" style="margin:0 0 14px">Clears all businesses, orders, projects and resources to start fresh for a live presentation. Trained ML models and datasets remain intact.</p>
+        <button class="btn s d" onclick="A.resetAllData()" style="border-color:#D14343;color:#D14343">Reset All Application Data</button>
+      </div>
+    `);
+  }
+};
+
+function R(preserveScroll = false) {
+  const scrollPos = preserveScroll ? window.scrollY : 0;
+  const h = (location.hash.slice(2) || '').split('/');
+  let k = h[0], id = h[1];
+  if (k === 'owner') { k = 'owner/' + (h[1] || 'dashboard'); id = h[2]; }
+  const f = P[k] || P[''];
+  document.getElementById('app').innerHTML = f(id);
+  if (preserveScroll) {
+    window.scrollTo?.(0, scrollPos);
+  } else {
+    window.scrollTo?.(0, 0);
+  }
+}
+
+try { const t = localStorage.getItem('pp-theme'); if (t) document.documentElement.dataset.theme = t; } catch(e) {}
+
+addEventListener('hashchange', () => { A.modal(); S.sidebar = 0; R(); });
+
+(async () => {
+  await A.loadHealth();
+  await A.loadBusinesses();
+  await A.loadRequests();
+  R();
+})();
+</script>
+</body>
+</html>
