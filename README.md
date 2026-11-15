@@ -1,132 +1,186 @@
-# PayPilot — Adaptive Business Operating Platform
+<div align="center">
 
-PayPilot is an AI-powered adaptive business operating platform designed for freelancers, artisans, and small businesses for the **“Build What's Next with PayPal and AI”** global hackathon.
+# PayPilot
 
-Unlike rigid generic project management tools, PayPilot adapts its workspace modules, milestones, intake questions, and risk monitoring to the specific nature of each business (e.g. Bakeries, Freelance Developers, Design Agencies, Caterers, and bespoke artisans).
+### AI-Powered Adaptive Business Operating Platform
 
----
+**Predict. Adapt. Optimize. Grow.**
 
-## Phase 1 Implementation Summary
+<br>
 
-- **Official PayPal Branding:** Verified official double-PP monogram SVG integrated in headers, footers, checkout buttons, and navigation.
-- **Adaptive AI Onboarding Agent:**
-  - Accepts business name and natural language description.
-  - Automatically identifies business category with confidence score and reasoning.
-  - Generates 6–7 dynamic multiple-choice questions tailored to the category, with interactive "Other" custom text inputs.
-  - Generates a tailored 6-stage milestone pipeline, recommended workspace modules, and capacity thresholds.
-  - Persists completed onboarding sessions and workspace configurations to the database.
-- **Database Foundation (PostgreSQL / Supabase + SQLite):**
-  - Full PostgreSQL/Supabase DDL schema in [`db/schema.sql`](file:///c:/Users/LENOVO/OneDrive/Documents/PAYPILOT%20NEW/db/schema.sql).
-  - High-performance, zero-config native SQLite runtime in [`db/database.js`](file:///c:/Users/LENOVO/OneDrive/Documents/PAYPILOT%20NEW/db/database.js) persisting to `paypilot.db`.
-  - ML-ready columns prepared for Phase 3 (planned vs. actual timestamps, remaining hours, dependency graphs, workload ratios, delay labels).
-- **PayPal Sandbox Developer API Foundation:**
-  - Secure server-side credential handling with zero secret leakage to the browser.
-  - Server endpoints for order creation (`POST /api/paypal/create-order`) and order capture (`POST /api/paypal/capture-order`).
-  - Strict server-side verification: status must be `COMPLETED` and captured amount must match expected billing amount before entitlements are unlocked.
-  - Verified transaction recording with idempotency protection.
-- **Preserved Core UI:**
-  - Light theme with persistent Dark Mode toggle.
-  - Responsive layouts, sidebars, marketplace, customer order trackers, owner portals, and empty/loading states.
+<img src="https://img.shields.io/badge/AI%20Powered-Business%20Platform-7C3AED?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Machine%20Learning-Risk%20Prediction-0EA5E9?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Payments-PayPal%20Sandbox-003087?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Status-In%20Development-F59E0B?style=for-the-badge"/>
+
+</div>
 
 ---
 
-## Getting Started
+## Overview
 
-### 1. Prerequisites
-- Node.js v18+ (Node.js v24 recommended)
-- npm v9+
+**PayPilot** is an AI-powered business operating platform designed for freelancers and small businesses.
 
-### 2. Installation
-```bash
-git clone <repo-url>
-cd "PAYPILOT NEW"
-npm install
-```
+It brings business operations, project management, resource monitoring, machine learning-based risk prediction and AI-assisted recommendations together in one platform.
 
-### 3. Environment Configuration
-Copy the template environment file:
-```bash
-cp .env.example .env
-```
-
-Open `.env` and configure your credentials:
-```env
-PORT=3000
-NODE_ENV=development
-
-# PayPal Sandbox Developer Credentials
-# (https://developer.paypal.com/dashboard/applications/sandbox)
-PAYPAL_MODE=sandbox
-PAYPAL_API_BASE=https://api-m.sandbox.paypal.com
-PAYPAL_CLIENT_ID=your_paypal_sandbox_client_id_here
-PAYPAL_CLIENT_SECRET=your_paypal_sandbox_client_secret_here
-
-# AI Provider Configuration ('gemini', 'openai', 'anthropic', or 'fallback')
-AI_PROVIDER=fallback
-GEMINI_API_KEY=
-OPENAI_API_KEY=
-ANTHROPIC_API_KEY=
-
-# Database
-DATABASE_FILE=paypilot.db
-```
-
-> **Note:** If `GEMINI_API_KEY` or `OPENAI_API_KEY` are left blank or `AI_PROVIDER=fallback`, PayPilot automatically uses its built-in adaptive semantic reasoning engine. If PayPal credentials are not configured, server endpoints return a structured status code (`PAYPAL_CREDENTIALS_MISSING`) and guide the user on how to add their sandbox credentials.
-
-### 4. Running the Application
-```bash
-npm start
-```
-Open your browser at: **`http://localhost:3000`**
-
-### 5. Running the Automated Test Suite
-```bash
-npm test
-```
+PayPilot helps businesses move beyond reactive management by identifying potential operational risks and suggesting ways to address them.
 
 ---
 
-## API Endpoints
+## Key Features
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/health` | Service health status and runtime details |
-| `POST` | `/api/onboarding/identify` | AI category identification & confidence reasoning |
-| `POST` | `/api/onboarding/questions` | Generates 6–7 adaptive questions with options |
-| `POST` | `/api/onboarding/generate-workspace` | Generates personalized milestones & modules |
-| `POST` | `/api/onboarding/save-session` | Persists onboarding session and business profile |
-| `GET` | `/api/businesses` | Lists active marketplace businesses |
-| `GET` | `/api/businesses/:id` | Returns business profile & workspace config |
-| `GET` | `/api/paypal/status` | Verifies PayPal Sandbox configuration status |
-| `POST` | `/api/paypal/create-order` | Creates a PayPal Sandbox order (server-side) |
-| `POST` | `/api/paypal/capture-order` | Captures order and performs server-side verification |
-| `GET` | `/api/paypal/transactions` | Retrieves verified payment transactions |
-
----
-
-## Roadmap
-
-- [x] **Phase 1:** Foundation + AI Agents + PayPal APIs *(Complete)*
-  - Truly Adaptive AI Onboarding: one question at a time, Gemini LLM + semantic fallback engine
-  - PayPal Sandbox server-side order creation & verified capture
-  - SQLite + PostgreSQL schema, ML-ready columns for Phase 3
-- [x] **Phase 2:** Dynamic Business Workspace *(Complete)*
-  - Two-way portal switching (Customer ⇄ Business Owner)
-  - Customer request submission with full validation → persists to DB
-  - Owner accept/reject workflow with category-specific milestone auto-generation
-  - Real-time milestone toggle with live progress percentage recalculation
-  - Owner project tracker, weekly workload schedule, and Recovery Centre stub
-  - My Orders customer tracking view with live milestone progress bars
-- [ ] **Phase 3:** ML Delay Prediction Model + Intelligent Recovery Agent (scikit-learn / FastAPI)
-- [ ] **Phase 4:** Advanced Payments + Business Growth (Milestone Invoices & Entitlements)
-- [ ] **Phase 5:** Deployment + Hackathon Submission
+| Feature | Description |
+|:---|:---|
+| **Adaptive Onboarding** | AI-generated, category-specific business questions |
+| **Dynamic Workspaces** | Business-specific dashboards and resources |
+| **Dual Portals** | Separate customer and business owner experiences |
+| **Marketplace** | Business listings and customer order requests |
+| **Project Management** | Order acceptance, milestones and progress tracking |
+| **Resource Management** | Inventory, capacity and workload monitoring |
+| **ML Risk Prediction** | Project delay probability and completion-time estimation |
+| **Interactive Analytics** | Project risk and resource insights |
+| **Recovery Centre** | AI-assisted recommendations with owner approval |
+| **AI Integration** | OpenRouter and Google Gemini support |
+| **Payment Integration** | PayPal Developer Sandbox workflow |
 
 ---
 
-## Running the Dev Server (with auto-restart)
+## Machine Learning
 
-```bash
-npm run dev
+PayPilot integrates two machine learning models to support operational risk analysis and project planning.
+
+| Model | Purpose |
+|:---|:---|
+| Random Forest Classifier | Project delay prediction |
+| HistGradientBoosting Regressor | Remaining duration estimation |
+
+### Development Evaluation Metrics
+
+| Metric | Result |
+|:---|---:|
+| Random Forest Accuracy | **85.3%** |
+| F1 Score | **0.8677** |
+| ROC-AUC | **0.9070** |
+| Regression MAE | **1.32 days** |
+| RMSE | **2.27 days** |
+| R² Score | **0.9646** |
+
+*Metrics are based on development evaluation and should not be interpreted as guaranteed production performance.*
+
+---
+
+## Tech Stack
+
+<div align="center">
+
+### Frontend
+
+<img src="https://skillicons.dev/icons?i=html,css,js,tailwind"/>
+
+### Backend & Database
+
+<img src="https://skillicons.dev/icons?i=nodejs,express,sqlite"/>
+
+### Machine Learning
+
+<img src="https://skillicons.dev/icons?i=python"/>
+
+**Pandas · Scikit-learn · Random Forest · HistGradientBoosting**
+
+### AI & Integrations
+
+<img src="https://img.shields.io/badge/OpenRouter-412991?style=flat-square"/>
+<img src="https://img.shields.io/badge/Google%20Gemini-8E75B2?style=flat-square"/>
+<img src="https://img.shields.io/badge/PayPal%20Sandbox-003087?style=flat-square"/>
+
+### Development Tools
+
+<img src="https://skillicons.dev/icons?i=vscode,git,github"/>
+
+</div>
+
+---
+
+## How PayPilot Works
+
+```text
+       Business Registration
+                |
+                v
+        Adaptive Onboarding
+                |
+                v
+       Category-Based Workspace
+                |
+                v
+        Marketplace Listing
+                |
+                v
+        Customer Order Request
+                |
+                v
+       Project & Resource Tracking
+                |
+                v
+         ML Risk Prediction
+                |
+                v
+      AI-Assisted Recommendations
+                |
+                v
+        Owner Approval & Action
+                |
+                v
+         Operational Reassessment
 ```
 
-The dev script uses Node.js built-in `--watch` mode (v18+) — no extra tools needed.
+**Core Workflow:** Monitor → Predict → Recommend → Approve → Reassess
+
+---
+
+## Testing
+
+<div align="center">
+
+<img src="https://img.shields.io/badge/Tests%20Passed-37%2F37-10B981?style=for-the-badge"/>
+
+</div>
+
+| Testing Phase | Tests Passed |
+|:---|---:|
+| Phase 1 | 19 |
+| Phase 2 | 9 |
+| Phase 3 | 9 |
+| **Total** | **37/37** |
+
+---
+
+## Future Scope
+
+- **AI Business Copilot** — Intelligent assistance for daily business operations.
+- **Demand Forecasting** — Predict upcoming customer demand.
+- **Smart Resource Allocation** — Optimize inventory, capacity and workload.
+- **Supplier Recommendations** — Identify suitable suppliers.
+- **Financial Analytics** — Deeper business performance insights.
+- **Cloud Deployment** — Improve scalability and platform accessibility.
+
+---
+
+<div align="center">
+
+### PAYPILOT
+
+**Making Business Operations Intelligent.**
+
+<br>
+
+<img src="https://img.shields.io/badge/Artificial%20Intelligence-7C3AED?style=flat-square"/>
+<img src="https://img.shields.io/badge/Machine%20Learning-0EA5E9?style=flat-square"/>
+<img src="https://img.shields.io/badge/Business%20Automation-10B981?style=flat-square"/>
+<img src="https://img.shields.io/badge/PayPal-003087?style=flat-square"/>
+
+<br><br>
+
+**Built with innovation, intelligence and purpose.**
+
+</div>
